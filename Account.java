@@ -9,9 +9,9 @@ public class Account {
     private ArrayList<Calendar> privateCalendars;
     private ArrayList<Calendar> linkedCalendars;
 
-    public Account (String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Account (String newUsername, String newPassword) {
+        this.username = newUsername;
+        this.password = newPassword;
         this.activity = true;
         this.defaultCalendar = new Calendar(this.username, this.username);
         this.privateCalendars = new ArrayList<Calendar>();
@@ -22,8 +22,8 @@ public class Account {
         return this.username;
     }
 
-    public void createPublicCalendar(String name, String owner) {
-        Calendar calendar = new Calendar(name, owner);
+    public void createPublicCalendar(String newName) {
+        Calendar calendar = new Calendar(newName, this.username);
         domain.addCalendar(calendar);
     }
 }

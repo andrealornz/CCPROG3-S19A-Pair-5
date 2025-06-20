@@ -5,7 +5,7 @@ public class CalendarDriver {
     private Account session;
     public static void main(String[] args) {
         Account myAcc = new Account("jeff", "password");
-        myAcc.createPublicCalendar("cal1", myAcc.getUsername());
-        System.out.println(Domain.getDomain().getCalendarList().size()); //testing
+        myAcc.createPublicCalendar("cal1");
+        System.out.println(Domain.getDomain().getCalendarList().get(0).getName()); //testing
     }
 }

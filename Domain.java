@@ -19,7 +19,7 @@ public class Domain {
         return this.calendarList;
     }
 
-    public void addCalendar(Calendar calendar) {
-        calendarList.add(calendar);
+    public void addCalendar(Calendar newCalendar) {
+        calendarList.add(newCalendar);
     }
 }
