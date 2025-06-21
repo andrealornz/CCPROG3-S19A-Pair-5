@@ -4,18 +4,15 @@ public class Account {
     private final String username;
     private final String password;
     private boolean activity;
-    private Domain domain = Domain.getDomain();
     private Calendar defaultCalendar;
-    private ArrayList<Calendar> privateCalendars;
-    private ArrayList<Calendar> linkedCalendars;
+    private ArrayList<Calendar> privateCalendarList;
 
     public Account (String newUsername, String newPassword) {
         this.username = newUsername;
         this.password = newPassword;
         this.activity = true;
         this.defaultCalendar = new Calendar(this.username, this.username);
-        this.privateCalendars = new ArrayList<Calendar>();
-        this.linkedCalendars = new ArrayList<Calendar>();
+        this.privateCalendarList = new ArrayList<Calendar>();
     }
 
     public String getUsername() {
@@ -24,6 +21,12 @@ public class Account {
 
     public void createPublicCalendar(String newName) {
         Calendar calendar = new Calendar(newName, this.username);
-        domain.addCalendar(calendar);
+        calendar.getLinkedAccounts().add(this.username);
+        Calendar.getPublicCalendarList().add(calendar);
+    }
+
+    public void createPrivateCalendar(String newName) {
+        Calendar calendar = new Calendar(newName, this.username);
+        this.privateCalendarList.add(calendar);
     }
 }
