@@ -16,8 +16,8 @@ public class Calendar {
         this.owner = owner;
         this.access = access;
 
-        if(access) { // immediately adds to public calendar list
-            getPublicCalendarList().add(this);
+        if (access) { // immediately adds to public calendar list
+            getPublicCalendarList().add(this); //leaking warning occurs at end of constructor so its fine
         }
     }
     
