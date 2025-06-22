@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Account {
+    // attributes
     private static ArrayList<Account> accountList = new ArrayList<Account>(); //array list of all accounts in system
     private static Account currentAccount = null; //current account in session
     private final String username;
@@ -14,7 +15,7 @@ public class Account {
         this.username = newUsername;
         this.password = newPassword;
         this.activity = true;
-        this.defaultCalendar = new Calendar(this.username, this.username);
+        this.defaultCalendar = new Calendar(this.username, this.username, false); //create default calendar named after user
         this.calendarList = new ArrayList<Calendar>();
     }
 
@@ -43,13 +44,17 @@ public class Account {
         return this.defaultCalendar;
     }
 
+    public ArrayList<Calendar> getCalendarList() {
+        return this.calendarList;
+    }
+
     // methods
 
     /*
         returns true if it successfully creates a new account after searching accountList if it already exists
         @param newUsername
         @param newPassword 
-    */
+     */
     public static boolean createAccount(String newUsername, String newPassword) {
         boolean success = true;
         if (accountList.isEmpty()) { //add acc if accountList is empty
@@ -66,12 +71,66 @@ public class Account {
         return success;
     }
 
-    public Calendar createCalendar(String newName) {
-        return new Calendar(newName, this.username);
+    /*
+        returns new calendar with set name and set access if given name isnt username
+        @param newName
+        @param newAccess
+     */
+    public Calendar createCalendar(String newName, boolean newAccess) {
+        Calendar newCalendar = null;
+        if (!newName.equals(this.username)) { //check if newName doesnt match username
+            newCalendar = new Calendar(newName, this.username, newAccess);
+        }
+        return newCalendar;
     }
 
     /*
-        returns true if it sets current session (currentAccount) to account with matching credentials
+        adds given calendar into calendarList and returns true if successful
+        @param calendar
+     */
+    public boolean acceptCalendar(Calendar calendar) {
+        boolean success = false;
+        if (calendar.getAccess() && !this.calendarList.contains(calendar)) { //check if access is public and isnt already in calendarList
+            this.calendarList.add(calendar);
+            success = true;
+        }
+        return success;
+    }
+
+    /*
+        removes given calendar from calendarList and returns true if successful
+        @param calendar
+     */
+    public boolean removeCalendar(Calendar calendar) {
+        boolean success = false;
+        if (this.calendarList.contains(calendar)) { //check if calendar is in calendarList
+            this.calendarList.remove(calendar);
+            success = true;
+        }
+        return success;
+    }
+
+    /*
+        deletes given calendar reference from publicCalendarList and each account's own calendarList
+        if owned by account and returns true if successful
+        @param calendar
+     */
+    public boolean deleteCalendar(Calendar calendar) {
+        boolean success = false;
+        if (calendar.getOwner().equals(this.username) && !calendar.getName().equals(this.username)) { //check if calendar is owned by account and not the default calendar
+            Calendar.removeFromPublicList(calendar);
+            for (Account acc : accountList) { //loop through each account and remove calendar
+                acc.removeCalendar(calendar);
+            }
+            success = true;
+        }
+        return success;
+    }
+
+    /*
+        sets current session (currentAccount) to account with matching credentials and returns true if successful
+        @param inputUsername
+        @param inputPassword
      */
     public static boolean loginAccount(String inputUsername, String inputPassword) {
         boolean success = false;
