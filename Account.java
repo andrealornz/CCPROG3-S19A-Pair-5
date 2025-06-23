@@ -72,7 +72,8 @@ public class Account {
     }
 
     /*
-        returns new calendar with set name and set access if given name isnt username
+        creates calendar inside of either public list or user's calendar list then returns new calendar
+        with set name and set access if given name isnt username
         @param newName
         @param newAccess
      */
@@ -80,6 +81,12 @@ public class Account {
         Calendar newCalendar = null;
         if (!newName.equals(this.username)) { //check if newName doesnt match username
             newCalendar = new Calendar(newName, this.username, newAccess);
+            if (newAccess == true) { //set public
+                Calendar.getPublicCalendarList().add(newCalendar);
+                this.calendarList.add(newCalendar);
+            } else { //set private
+                this.calendarList.add(newCalendar);
+            }
         }
         return newCalendar;
     }

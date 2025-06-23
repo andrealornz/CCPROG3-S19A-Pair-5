@@ -7,14 +7,15 @@ public class Calendar {
     private String name;
     private String owner;
     private boolean access; // (true) public (false) private
-    private ArrayList<Entry> entries = null;
-    private static ArrayList<Calendar> publicCalendarList = null;
+    private ArrayList<Entry> entries;
+    private static ArrayList<Calendar> publicCalendarList;
 
     // class constructor
     public Calendar(String name, String owner, boolean access) {
         this.name = name;
         this.owner = owner;
         this.access = access;
+        this.entries = new ArrayList<Entry>();
 
         if (access) { // immediately adds to public calendar list
             getPublicCalendarList().add(this); //leaking warning occurs at end of constructor so its fine
@@ -67,7 +68,9 @@ public class Calendar {
 
     // methods
     public static void removeFromPublicList(Calendar calendar) {
-        getPublicCalendarList().remove(calendar);
+        if (getPublicCalendarList().contains(calendar)) {
+            getPublicCalendarList().remove(calendar);
+        }
     }
 
     public void createEntry(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String details) {
@@ -76,7 +79,9 @@ public class Calendar {
     }
 
     public void deleteEntry(Entry entry) {
-        entries.remove(entry);
+        if (this.entries.contains(entry)) {
+            entries.remove(entry);
+        }
     }
 
     public ArrayList<Entry> getEntriesForDate(LocalDate date) {
