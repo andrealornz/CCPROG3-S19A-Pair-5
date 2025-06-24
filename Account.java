@@ -56,19 +56,13 @@ public class Account {
         @param newPassword 
      */
     public static boolean createAccount(String newUsername, String newPassword) {
-        boolean success = true;
-        if (accountList.isEmpty()) { //add acc if accountList is empty
-            accountList.add(new Account(newUsername, newPassword));
-        } else {
-            for (Account acc : accountList) { //add acc if it doesn't already exist in accountList
-                if (acc.getUsername().equals(newUsername)) {
-                    success = false;
-                } else {
-                    accountList.add(new Account(newUsername, newPassword));
-                }
+        for (Account acc : accountList) { // no need to check if list is empty
+            if (acc.getUsername().equals(newUsername)) { 
+                return false; 
             }
         }
-        return success;
+        accountList.add(new Account(newUsername, newPassword)); // waits for loop to terminate before creating account
+        return true;
     }
 
     /*
