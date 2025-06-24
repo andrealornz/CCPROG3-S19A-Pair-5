@@ -40,20 +40,67 @@ public class Driver {
     }
 
     public static void handleAccountSettings() {
-        // TEST
-        System.out.println("\nLogout successful!");
-        Account.logoutAccount();
+        int choice;
+        boolean flag1 = true;
+        boolean flag2 = true;
+
+        while (flag1) {
+            System.out.println("\n== Account Settings ==");
+            System.out.println("[1] Logout Account");
+            System.out.println("[2] Delete Account");
+            System.out.println("[3] Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nLogout successful. See you again soon " + Account.getCurrentAccount().getUsername() + "!");
+                    Account.logoutAccount();
+                    flag1 = false;
+                    break;
+                case 2: 
+                    while (flag2) {
+                        System.out.println("\n== Delete Account ==");
+                        System.out.println("Are you sure you want to proceed?");
+                        System.out.println("[1] Yes");
+                        System.out.println("[2] No");
+                        System.out.print("Enter your choice: ");
+                        choice = sc.nextInt();
+                        sc.nextLine();
+
+                        if (choice == 1) {
+                            System.out.println("\nAccount deletion successful. We hope to see you again " + Account.getCurrentAccount().getUsername() + "!");
+                            Account.getCurrentAccount().deleteAccount();
+                            flag2 = false;
+                            flag1 = false;
+                        } else if (choice == 2) {
+                            flag2 = false;
+                        } else {
+                            System.out.println("\nInvalid choice. Please try again.");
+                        }
+                    }
+                    break;
+                case 3:
+                    flag1 = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice. Please try again.");
+                    break;
+            }
+        }
     }
 
     // main method
     public static void main(String[] args) {
+        boolean flag = true;
         int choice;
         boolean success;
         String username;
         String password;
 
-        while(true) {
-            while(Account.getCurrentAccount() == null) { // no account logged in
+        while(flag) {
+            while(Account.getCurrentAccount() == null && flag) { // no account logged in
                 // login menu
                 System.out.println("\n=== Welcome to your Digital Calendar! ===\n");
                 System.out.println("Sign-in Options:");
@@ -99,15 +146,15 @@ public class Driver {
                     }
 
                 } else if (choice == 3) {
-                    System.out.println("\n\nThank you for using our Digital Calendar!");
-                    System.exit(0);
+                    System.out.println("\nThank you for using our Digital Calendar!");
+                    flag = false;
 
                 } else {
                     System.out.println("\nInvalid choice. Please try again.");
                 }    
             }
 
-            while(Account.getCurrentAccount() != null) { // an account is logged in
+            while(Account.getCurrentAccount() != null && flag) { // an account is logged in
                 choice = displayMainMenu();
 
                 switch (choice) {
@@ -128,6 +175,7 @@ public class Driver {
                 }
             }
         }
-        
+
+        sc.close();
     }
 }
