@@ -40,7 +40,9 @@ public class Driver {
     }
 
     public static void handleAccountSettings() {
-
+        // TEST
+        System.out.println("\nLogout successful!");
+        Account.logoutAccount();
     }
 
     // main method
@@ -97,11 +99,11 @@ public class Driver {
                     }
 
                 } else if (choice == 3) {
-                    System.out.println("Thank you for using our Digital Calendar!");
+                    System.out.println("\n\nThank you for using our Digital Calendar!");
                     System.exit(0);
 
                 } else {
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("\nInvalid choice. Please try again.");
                 }    
             }
 
@@ -120,6 +122,7 @@ public class Driver {
                         break;
                     case 4:
                         handleAccountSettings();
+                        break;
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
