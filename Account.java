@@ -17,6 +17,7 @@ public class Account {
         this.activity = true;
         this.defaultCalendar = new Calendar(this.username, this.username, false); //create default calendar named after user
         this.calendarList = new ArrayList<Calendar>();
+        getCalendarList().add(this.defaultCalendar);
     }
 
     // getters, setters
