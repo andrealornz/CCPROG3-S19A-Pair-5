@@ -80,16 +80,11 @@ public class Account {
         @param newName
         @param newAccess
      */
-    public Calendar createCalendar(String newName, boolean newAccess) {
+public Calendar createCalendar(String newName, boolean newAccess) {
         Calendar newCalendar = null;
         if (!newName.equals(this.username)) { //check if newName doesnt match username
             newCalendar = new Calendar(newName, this.username, newAccess);
-            if (newAccess == true) { //set public
-                Calendar.getPublicCalendarList().add(newCalendar);
-                this.calendarList.add(newCalendar);
-            } else { //set private
-                this.calendarList.add(newCalendar);
-            }
+            this.calendarList.add(newCalendar);
         }
         return newCalendar;
     }
