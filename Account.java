@@ -20,6 +20,10 @@ public class Account {
     }
 
     // getters, setters
+    public static ArrayList<Account> getAccountList() {
+        return accountList;
+    }
+
     public static Account getCurrentAccount() {
         return currentAccount;
     }
@@ -104,31 +108,26 @@ public class Account {
     }
 
     /*
-        removes given calendar from calendarList and returns true if successful
+        removes given calendar from calendarList if public and returns true if successful
         @param calendar
      */
     public boolean removeCalendar(Calendar calendar) {
         boolean success = false;
-        if (this.calendarList.contains(calendar)) { //check if calendar is in calendarList
-            this.calendarList.remove(calendar);
-            success = true;
+        if (this.calendarList.contains(calendar) && !calendar.getAccess()) { //check if calendar is in calendarList and is public
+            success = this.calendarList.remove(calendar);
         }
         return success;
     }
 
     /*
-        deletes given calendar reference from publicCalendarList and each account's own calendarList
-        if owned by account and returns true if successful
+        deletes given calendar reference from publicCalendarList and each account's own calendarList 
+        except for default calendar only if owned by account and returns true if successful
         @param calendar
      */
     public boolean deleteCalendar(Calendar calendar) {
         boolean success = false;
         if (calendar.getOwner().equals(this.username) && !calendar.getName().equals(this.username)) { //check if calendar is owned by account and not the default calendar
-            Calendar.removeFromPublicList(calendar);
-            for (Account acc : accountList) { //loop through each account and remove calendar
-                acc.removeCalendar(calendar);
-            }
-            success = true;
+            success = Calendar.removeFromPublicList(calendar) && this.calendarList.remove(calendar); //delete calendar from own account, other's accounts, and public list
         }
         return success;
     }

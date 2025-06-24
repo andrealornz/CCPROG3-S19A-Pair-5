@@ -1,3 +1,4 @@
+import java.net.SecureCacheResponse;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -5,9 +6,9 @@ import java.time.LocalTime;
 public class Calendar {
     // attributes
     private String name;
-    private String owner;
+    private final String owner;
     private boolean access; // (true) public (false) private
-    private ArrayList<Entry> entries;
+    private final ArrayList<Entry> entries;
     private static ArrayList<Calendar> publicCalendarList;
 
     // class constructor
@@ -46,42 +47,29 @@ public class Calendar {
         return this.access;
     }
 
-    public void setAccess(boolean access) {
+    /*
+        setter method adds and removes this calendar instance from public calendar list according to given access
+        returns true if successful
+        @param access
+     */
+    public boolean setAccess(boolean access) {
+        boolean success = false;
         // private to public 
         if (!this.access && access) {
-            getPublicCalendarList().add(this);
+            success = getPublicCalendarList().add(this);
+            this.access = access;
         }
         // public to private
         else if (this.access && !access) {
-            getPublicCalendarList().remove(this);
-    }
-    
-    this.access = access;
+            success = removeFromPublicList(this);
+            this.access = access;
+        }
+        
+        return success;
     }
 
     public ArrayList<Entry> getEntries() {
-        if (entries == null) {
-            this.entries = new ArrayList<Entry>();
-        }
-        return entries;
-    }
-
-    // methods
-    public static void removeFromPublicList(Calendar calendar) {
-        if (getPublicCalendarList().contains(calendar)) {
-            getPublicCalendarList().remove(calendar);
-        }
-    }
-
-    public void createEntry(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String details) {
-        Entry newEntry = new Entry(title, date, startTime, endTime, details);
-        entries.add(newEntry); 
-    }
-
-    public void deleteEntry(Entry entry) {
-        if (this.entries.contains(entry)) {
-            entries.remove(entry);
-        }
+        return this.entries;
     }
 
     public ArrayList<Entry> getEntriesForDate(LocalDate date) {
@@ -95,4 +83,61 @@ public class Calendar {
 
         return entriesForDate;
     }
+
+    // methods
+
+    /*
+        searches publicCalendarList and each account (except for the owner) for given calendar instance and removes it.
+        returns true if successful
+        @param calendar
+     */
+    public static boolean removeFromPublicList(Calendar calendar) {
+        boolean success = false;
+        if (getPublicCalendarList().contains(calendar) && calendar.getAccess()) { //check if publicCalendarList has given calendar and given calendar is public access
+            getPublicCalendarList().remove(calendar); //remove calendar from publicCalendarList
+            for (Account acc : Account.getAccountList()) { //loop through accounts in accountList
+                if (!calendar.getOwner().equals(acc.getUsername())) { //non-owners only
+                    acc.removeCalendar(calendar); //remove calendar from each account's own calendarList
+                }
+            }
+            success = true;
+        }
+        return success;
+    }
+
+    /*
+        searches if any entry in entry list has same title as given title params and creates new entry if false.
+        returns true if successful
+        @param title
+        @param date
+        @param startTime
+        @param endTime
+        @param details
+     */
+    public boolean createEntry(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String details) {
+        boolean success = true;
+        for (Entry entry : entries) { //search for entries with same title
+            if (entry.getTitle().equals(title)) {
+                success = false;
+            }
+        }
+        if (success == true) { //create new entry
+            entries.add(new Entry(title, date, startTime, endTime, details));
+        }
+        return success;
+    }
+
+    /*
+        searches entry list for given entry and removes it. returns true if successful
+        @param entry
+     */
+    public boolean deleteEntry(Entry entry) {
+        boolean success = false;
+        if (this.entries.contains(entry)) {
+            entries.remove(entry);
+            success = true;
+        }
+        return success;
+    }
+
 }
