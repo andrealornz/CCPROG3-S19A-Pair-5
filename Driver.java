@@ -28,7 +28,38 @@ public class Driver {
     }
 
     public static void handleViewCalendars() {
+        Account currentAccount = Account.getCurrentAccount();
+        System.out.println("\n== " + currentAccount.getUsername() + "'s Calendars ==");
 
+        // display owned calendars
+        ArrayList<Calendar> userCalendars = new ArrayList<>();
+        for (Calendar calendar : currentAccount.getCalendarList()) {
+            if (calendar.getOwner().equals(currentAccount.getUsername())) {
+                userCalendars.add(calendar);
+            }
+        }
+
+        System.out.println("Owned Calendars:");
+        for (int i = 0; i < userCalendars.size(); i++) {
+            Calendar calendar = userCalendars.get(i);
+            String access = calendar.getAccess() ? "Public" : "Private";
+            System.out.println("[" + (i + 1) + "] " + calendar.getName() + " (" + access + ")");
+        }
+
+        // display added calendars
+        ArrayList<Calendar> addedCalendars = new ArrayList<>();
+        for (Calendar calendar : currentAccount.getCalendarList()) {
+            if (!calendar.getOwner().equals(currentAccount.getUsername())) {
+                addedCalendars.add(calendar);
+            }
+        }
+
+        System.out.println("\nAdded Calendars:");
+        int index = 1 + userCalendars.size(); // continue the count
+        for (int i = 0; i < addedCalendars.size(); i++) {
+            Calendar calendar = addedCalendars.get(i);
+            System.out.println("[" + (index + i) + "] " + calendar.getName() + " (by " + calendar.getOwner() + ")");
+        }
     }
 
     public static void handleAddCalendars() {
@@ -99,7 +130,7 @@ public class Driver {
                 displayAccess = "Public";
                 flag = false;
             } else {
-                System.out.println("\nInvalid choice. Please try again.");
+                System.out.println("\nInvalid choice. Please try again.\n");
             }
         }
 
@@ -110,7 +141,7 @@ public class Driver {
     public static void handleAddExistingCalendar() {
         System.out.println("\n== Add Existing Public Calendar ==");
 
-        ArrayList<Calendar> availablePublicCalendars = new ArrayList<Calendar>();
+        ArrayList<Calendar> availablePublicCalendars = new ArrayList<>();
         Account currentAccount = Account.getCurrentAccount();
 
         // get all public calendars that the account does not own
