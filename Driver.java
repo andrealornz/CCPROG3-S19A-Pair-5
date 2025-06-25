@@ -7,10 +7,6 @@ public class Driver {
     private static Scanner sc = new Scanner(System.in);
 
     // helper methods
-    public static void printSeparator(){
-        System.out.println("--------------------------------------------------");
-    }
-
     public static int displayMainMenu() {
         int choice;
 
@@ -28,38 +24,147 @@ public class Driver {
     }
 
     public static void handleViewCalendars() {
+        boolean flag1 = true;
+
+        while (flag1) {
+            Account currentAccount = Account.getCurrentAccount();
+            System.out.println("\n== " + currentAccount.getUsername() + "'s Calendars ==");
+
+            // display owned calendars
+            ArrayList<Calendar> userCalendars = new ArrayList<>();
+            for (Calendar calendar : currentAccount.getCalendarList()) {
+                if (calendar.getOwner().equals(currentAccount.getUsername())) {
+                    userCalendars.add(calendar);
+                }
+            }
+            System.out.println("Owned Calendars:");
+            for (int i = 0; i < userCalendars.size(); i++) {
+                Calendar calendar = userCalendars.get(i);
+                String access = calendar.getAccess() ? "Public" : "Private";
+                System.out.println("[" + (i + 1) + "] " + calendar.getName() + " (" + access + ")");
+            }
+
+            // display added calendars
+            ArrayList<Calendar> addedCalendars = new ArrayList<>();
+            for (Calendar calendar : currentAccount.getCalendarList()) {
+                if (!calendar.getOwner().equals(currentAccount.getUsername())) {
+                    addedCalendars.add(calendar);
+                }
+            }
+            if (addedCalendars.isEmpty()) {
+                System.out.println("\nAdded Calendars:");
+                System.out.println("[EMPTY]");
+            } else {
+                System.out.println("\nAdded Calendars:");
+                int index = 1 + userCalendars.size(); // continue the count
+                for (int i = 0; i < addedCalendars.size(); i++) {
+                    Calendar calendar = addedCalendars.get(i);
+                    System.out.println("[" + (index + i) + "] " + calendar.getName() + " (by " + calendar.getOwner() + ")");
+                }
+            }
+
+            ArrayList<Calendar> allCalendars = new ArrayList<>();
+            allCalendars.addAll(userCalendars);
+            allCalendars.addAll(addedCalendars);
+
+            boolean flag2 = true;
+            while (flag2) {
+                System.out.print("\nSelect a calendar number [0 to cancel]: ");
+                int choice = sc.nextInt();
+                sc.nextLine();
+
+                if (choice == 0) {
+                    flag1 = false;
+                    flag2 = false;
+                } else if (choice >= 1 && choice <= allCalendars.size()) {
+                    Calendar selectedCalendar = allCalendars.get(choice - 1);
+                    System.out.println("\n== Options for \"" + selectedCalendar.getName() + "\" Calendar ==");
+                    System.out.println("[1] View Calendar");
+                    System.out.println("[2] Delete Calendar");
+                    System.out.println("[3] Back to Main Menu");
+                    System.out.print("Enter your choice: ");
+                    choice = sc.nextInt();
+                    sc.nextLine();
+                    
+                    switch (choice) {
+                        case 1:
+                            handleViewCalendar(selectedCalendar);
+                            break;
+                        case 2:
+                            handleDeleteCalendar(selectedCalendar);
+                            flag2 = false;
+                            break;
+                        case 3:
+                            flag2 = false;
+                            flag1 = false;
+                            break;
+                        default:
+                            System.out.println("\nInvalid choice. Please try again.");
+                    }
+                }
+            }
+        }
+    }
+    
+    public static void handleViewCalendar(Calendar calendar) { 
+    }
+
+    public static void handleDeleteCalendar(Calendar calendar) {
         Account currentAccount = Account.getCurrentAccount();
-        System.out.println("\n== " + currentAccount.getUsername() + "'s Calendars ==");
+        boolean flag = true;
+        
+        while (flag) {
+            System.out.println("\n== Delete Calendar ==");
+        
+            if (calendar.getName().equals(currentAccount.getUsername())) {
+                System.out.println("\nDefault calendar cannot be deleted.");
+                flag = false;
+            } else {
+                boolean flag2 = true;
 
-        // display owned calendars
-        ArrayList<Calendar> userCalendars = new ArrayList<>();
-        for (Calendar calendar : currentAccount.getCalendarList()) {
-            if (calendar.getOwner().equals(currentAccount.getUsername())) {
-                userCalendars.add(calendar);
+                while (flag2) {
+                    System.out.println("Are you sure you want to proceed?");
+                    System.out.println("[1] Yes");
+                    System.out.println("[2] No");
+                    System.out.print("Enter your choice: ");
+                    int choice = sc.nextInt();
+                    sc.nextLine();
+
+                    if (choice == 1) {
+                        boolean success = false;
+
+                        if (calendar.getOwner().equals(currentAccount.getUsername())) { // owned by the account
+                            success = currentAccount.deleteCalendar(calendar);
+
+                            if (success) {
+                                System.out.println("\nCalendar deleted successfully.");
+                                flag2 = false;
+                                flag = false;
+                            } else {
+                                System.out.println("\nFailed to delete calendar.");
+                                flag2 = false;
+                                flag = false;
+                            }
+                        } else { // owned by other accounts
+                            success = currentAccount.removeCalendar(calendar);
+                            
+                            if (success) {
+                                System.out.println("\nCalendar removed successfully.");
+                                flag2 = false;
+                                flag = false;
+                            } else {
+                                System.out.println("\nFailed to delete calendar.");
+                                flag2 = false;
+                                flag = false;
+                            }
+                        }
+                    } else {
+                        flag = false;
+                    }
+                }
             }
         }
-
-        System.out.println("Owned Calendars:");
-        for (int i = 0; i < userCalendars.size(); i++) {
-            Calendar calendar = userCalendars.get(i);
-            String access = calendar.getAccess() ? "Public" : "Private";
-            System.out.println("[" + (i + 1) + "] " + calendar.getName() + " (" + access + ")");
-        }
-
-        // display added calendars
-        ArrayList<Calendar> addedCalendars = new ArrayList<>();
-        for (Calendar calendar : currentAccount.getCalendarList()) {
-            if (!calendar.getOwner().equals(currentAccount.getUsername())) {
-                addedCalendars.add(calendar);
-            }
-        }
-
-        System.out.println("\nAdded Calendars:");
-        int index = 1 + userCalendars.size(); // continue the count
-        for (int i = 0; i < addedCalendars.size(); i++) {
-            Calendar calendar = addedCalendars.get(i);
-            System.out.println("[" + (index + i) + "] " + calendar.getName() + " (by " + calendar.getOwner() + ")");
-        }
+        
     }
 
     public static void handleAddCalendars() {
@@ -87,7 +192,6 @@ public class Driver {
                     break;
                 default:
                     System.out.println("\nInvalid choice. Please try again.");
-                    break;
             }
         }
     }
@@ -244,6 +348,14 @@ public class Driver {
 
                         if (choice == 1) {
                             System.out.println("\nAccount deletion successful. We hope to see you again " + Account.getCurrentAccount().getUsername() + "!");
+                            
+
+                            for (Calendar calendar : Account.getCurrentAccount().getCalendarList()) {
+                                if (!calendar.getAccess()) {
+                                    Account.getCurrentAccount().deleteCalendar(calendar);
+                                }
+                                Account.getCurrentAccount().getCalendarList().remove(Account.getCurrentAccount().getDefaultCalendar());
+                            }
                             Account.getCurrentAccount().deleteAccount();
                             Account.logoutAccount();
                             flag2 = false;
