@@ -128,14 +128,17 @@ public class Calendar {
     }
 
     /*
-        searches entry list for given entry and removes it. returns true if successful
-        @param entry
+        searches entry list for entry with given date and title and removes it. returns true if successful
+        @param date
+        @param title
      */
-    public boolean deleteEntry(Entry entry) {
+    public boolean deleteEntry(LocalDate date, String title) {
         boolean success = false;
-        if (this.entries.contains(entry)) {
-            entries.remove(entry);
-            success = true;
+        for (Entry entry : this.getEntries()) {
+            if (success == false && entry.getDate().equals(date) && entry.getTitle().equals(title)) {
+                this.getEntries().remove(entry);
+                success = true;
+            }
         }
         return success;
     }
