@@ -123,7 +123,10 @@ public class Account {
     public boolean deleteCalendar(Calendar calendar) {
         boolean success = false;
         if (calendar.getOwner().equals(this.username) && !calendar.getName().equals(this.username)) { //check if calendar is owned by account and not the default calendar
-            success = Calendar.removeFromPublicList(calendar) && this.calendarList.remove(calendar); //delete calendar from own account, other's accounts, and public list
+            if (calendar.getAccess()) // if public
+                success = Calendar.removeFromPublicList(calendar) && this.calendarList.remove(calendar); //delete calendar from own account, other's accounts, and public list
+            else // if private
+                success = this.calendarList.remove(calendar);
         }
         return success;
     }
