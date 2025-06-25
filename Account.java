@@ -109,7 +109,7 @@ public class Account {
      */
     public boolean removeCalendar(Calendar calendar) {
         boolean success = false;
-        if (this.calendarList.contains(calendar) && !calendar.getAccess()) { //check if calendar is in calendarList and is public
+        if (this.calendarList.contains(calendar) && calendar.getAccess()) { //check if calendar is in calendarList and is public
             success = this.calendarList.remove(calendar);
         }
         return success;
