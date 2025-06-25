@@ -293,7 +293,37 @@ public class Driver {
     }
 
     public static void handleManageEntries() {
-
+        /* == Manage <username>'s Entries == (this is just a suggestion but u can change it to whatever is easier for u to do)
+         * (display entries per date)
+         * [1] Add Entry
+         * [2] Edit Entry
+         * [3] Delete Entry
+         * [4] Back to Main Menu
+         * 
+         * (make it similar to the viewCalendars method if possible)
+         * == Add Entry ==
+         * Date [indicate correct format=]:
+         * Title:
+         * Start Time [indicate correct format]:
+         * End Time [indicate correct format]:
+         * Details:
+         * 
+         * 
+         * == Edit Entry == (to edit, call deleteEntry and then addEntry with the new details but the same date)
+         * Entry to be Edited: (no input, just prompt)
+         * Date: (use date and old title to search for entry, date is not changed)
+         * Title:
+         * 
+         * New Title:
+         * New Start Time:
+         * New End Time:
+         * New Details:
+         * 
+         * == Delete Entry == 
+         * Entry to be Deleted: (no input, just prompt)
+         * Date: 
+         * Title:
+        */
     }
 
     public static boolean handleAccountSettings() {
