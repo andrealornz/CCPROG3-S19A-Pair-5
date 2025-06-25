@@ -1,7 +1,7 @@
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Driver {
     private static Scanner sc = new Scanner(System.in);
@@ -292,7 +292,7 @@ public class Driver {
         }
     }
 
-    public static void handleManageEntries() {
+    public static void handleManageEntries(Calendar calendar) {
         /* == Manage <username>'s Entries == (this is just a suggestion but u can change it to whatever is easier for u to do)
          * (display entries per date)
          * [1] Add Entry
@@ -324,6 +324,84 @@ public class Driver {
          * Date: 
          * Title:
         */
+        int choice;
+        boolean flag1 = true;
+
+        while (flag1) {
+            System.out.println("== Manage <calendar> Entries ==");
+            System.out.println("[1] Add Entry");
+            System.out.println("[2] Edit Entry");
+            System.out.println("[3] Delete Entry");
+            System.out.println("[4] Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1: //add entry
+                    System.out.println("== Add Entry ==");
+                    System.out.print("Date [yyyy-mm-dd]: ");
+                    LocalDate date = LocalDate.parse(sc.nextLine());
+                    System.out.println("Title: ");
+                    String title = sc.nextLine();
+                    System.out.println("Start time [hh:mm]: ");
+                    LocalTime startTime = LocalTime.parse(sc.nextLine());
+                    System.out.println("End time [hh:mm]: ");
+                    LocalTime endTime = LocalTime.parse(sc.nextLine());
+                    System.out.println("Details: ");
+                    String details = sc.nextLine();
+                    if (calendar.createEntry(title, date, startTime, endTime, details)) {
+                        System.out.println("\nSuccessfully created Entry \"" + title + "\" from " + startTime + " to " + endTime);
+                    } else {
+                        System.out.println("Entry Invalid. Please try again.");
+                    }
+                    break;
+                case 2: //edit entry
+                    System.out.println("== Edit Entry ==");
+                    System.out.println("Entry to be Edited: ");
+                    System.out.println("Date [yyyy-mm-dd]:");
+                    LocalDate currentDate = LocalDate.parse(sc.nextLine());
+                    System.out.println("Title: ");
+                    String currentTitle = sc.nextLine();
+                    if (calendar.deleteEntry(currentDate, currentTitle)) {
+                        System.out.println("New Title: ");
+                        String newTitle = sc.nextLine();
+                        System.out.println("New Start Time [hh:mm]: ");
+                        LocalTime newStartTime = LocalTime.parse(sc.nextLine());
+                        System.out.println("New End Time [hh:mm]: ");
+                        LocalTime newEndTime = LocalTime.parse(sc.nextLine());
+                        System.out.println("New Details: ");
+                        String newDetails = sc.nextLine();
+                        if (calendar.createEntry(newTitle, currentDate, newStartTime, newEndTime, newDetails)) {
+                            System.out.println("Successfully changed Entry");
+                        } else {
+                            System.out.println("\nCould not edit Entry. Pleaes try again.");
+                        }
+                    } else {
+                        System.out.println("\nCould not find Entry. Please try again.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("== Delete Entry ==");
+                    System.out.println("Entry to delete: ");
+                    System.out.println("Date [yyyy-mm-dd]: ");
+                    LocalDate dDate = LocalDate.parse(sc.nextLine());
+                    System.out.println("Title: ");
+                    String dTitle = sc.nextLine();
+                    if (calendar.deleteEntry(dDate, dTitle)) {
+                        System.out.println("\nSuccessfully deleted Entry \"" + dTitle + "\"");
+                    } else {
+                        System.out.println("\nCould not delete Entry. Pleaes try again.");
+                    }
+                    break;
+                case 4:
+                    flag1 = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice. Please try again.");
+                    break;
+            }
+        }
     }
 
     public static boolean handleAccountSettings() {
@@ -505,7 +583,7 @@ public class Driver {
                         handleAddCalendars();
                         break;
                     case 3:
-                        handleManageEntries();
+                        //handleManageEntries(<selected calendar from viewCalendars>);
                     case 4:
                         exit = handleAccountSettings();
                         if (exit) {
