@@ -1,4 +1,3 @@
-import java.net.SecureCacheResponse;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -152,7 +151,7 @@ public class Calendar {
 
     /* 
         displays the monthly calendar view for the selected month
-        @param currentMonth - the month to be viewd
+        @param currentMonth - the month to be viewed
     */
     public void displayMonthlyView(YearMonth currentMonth) {
         Account currentAccount = Account.getCurrentAccount();
@@ -161,9 +160,9 @@ public class Calendar {
         String monthName = currentMonth.getMonth().toString(); // get month name as string
         System.out.println("\n\t\t\t\t\t\t" + monthName + " " + currentMonth.getYear()); // displays month and year
 
-        System.out.println("┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐");
-        System.out.println("│     Sun      │     Mon      │     Tue      │     Wed      │     Thu      │     Fri      │     Sat      │");
-        System.out.println("├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤");
+        System.out.println("+--------------+--------------+--------------+--------------+--------------+--------------+--------------+");
+        System.out.println("|     Sun      |     Mon      |     Tue      |     Wed      |     Thu      |     Fri      |     Sat      |");
+        System.out.println("+--------------+--------------+--------------+--------------+--------------+--------------+--------------+");
 
         LocalDate firstDay = currentMonth.atDay(1); // first day of the month
         int daysInMonth = currentMonth.lengthOfMonth(); // total days in the month
@@ -188,13 +187,13 @@ public class Calendar {
         // displays each week by row (there are 4 rows per day to make space for the entries)
         for (int week = 0; week < 6 && dayGrid[week][0] > 0 || (week < 6 && hasAnyDay(dayGrid[week])); week++) {
             // first row displays day numbers
-            System.out.print("│");
+            System.out.print("|");
             for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
                 int day = dayGrid[week][dayOfWeek];
                 if (day == 0) {
-                    System.out.print("              │"); // empty cell or no day
+                    System.out.print("              |"); // empty cell or no day
                 } else {
-                    System.out.printf("  %-2d          │", day); // day number
+                    System.out.printf("  %-2d          |", day); // day number
                 }
             }
             System.out.println();
@@ -218,51 +217,51 @@ public class Calendar {
             }
 
             // second row displays the first row of entry titles
-            System.out.print("│");
+            System.out.print("|");
             for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) { // loops days of the week
                 int day = dayGrid[week][dayOfWeek];
                 if (day == 0) {
-                    System.out.print("              │"); // empty cell
+                    System.out.print("              |"); // empty cell
                 } else {
                     if (!sortedEntries[dayOfWeek].isEmpty()) { // if a day has entries
                         String entryTitle = sortedEntries[dayOfWeek].get(0).getTitle(); // get title
                         if (entryTitle.length() > 12) { // shorten long entry titles
                             entryTitle = entryTitle.substring(0, 9) + "...";
                         }
-                        System.out.printf(" %-13s│", entryTitle);
+                        System.out.printf(" %-13s|", entryTitle);
                     } else {
-                        System.out.print("              │"); // no entry for the date
+                        System.out.print("              |"); // no entry for the date
                     }
                 }
             }
             System.out.println();
 
             // third row displays the second row of entry titles
-            System.out.print("│");
+            System.out.print("|");
             for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) { // loops days of the week
                 int day = dayGrid[week][dayOfWeek];
                 if (day == 0) {
-                    System.out.print("              │"); // empty cell
+                    System.out.print("              |"); // empty cell
                 } else {
                     if (sortedEntries[dayOfWeek].size() > 1) { // if there is more than 1 entry in a day
                         String entryTitle = sortedEntries[dayOfWeek].get(1).getTitle(); // gets title
                         if (entryTitle.length() > 12) { // shortens long entry titles
                             entryTitle = entryTitle.substring(0, 9) + "...";
                         }
-                        System.out.printf(" %-13s│", entryTitle);
+                        System.out.printf(" %-13s|", entryTitle);
                     } else {
-                        System.out.print("              │"); // no entry for the date
+                        System.out.print("              |"); // no entry for the date
                     }
                 }
             }
             System.out.println();
 
             // fourth row displays third row of entry titles
-            System.out.print("│");
+            System.out.print("|");
             for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) { // loops days of the week
                 int day = dayGrid[week][dayOfWeek];
                 if (day == 0) {
-                    System.out.print("              │"); // empty cell
+                    System.out.print("              |"); // empty cell
                 } else {
                     if (sortedEntries[dayOfWeek].size() > 2) { // if there is more than 2 entries in a day
                         if (sortedEntries[dayOfWeek].size() == 3) { // if there is exactly 3 entries in a day
@@ -270,24 +269,24 @@ public class Calendar {
                             if (entryTitle.length() > 12) { // shortens long entry titles
                                 entryTitle = entryTitle.substring(0, 9) + "...";
                             }
-                            System.out.printf(" %-13s│", entryTitle);
+                            System.out.printf(" %-13s|", entryTitle);
                         } else { // if there is more than 3 entries in a day
                             int moreCount = sortedEntries[dayOfWeek].size() - 2; // counts how many more entries there are
-                            System.out.printf(" +%d more      │", moreCount);
+                            System.out.printf(" +%d more      |", moreCount);
                         }
                     } else {
-                        System.out.print("              │");
+                        System.out.print("              |");
                     }
                 }
             }
             System.out.println();
 
             if (week < 5 && hasAnyDay(dayGrid[week + 1])) { // checks if it is the last day of the week or not
-                System.out.println("├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤");
+                System.out.println("+--------------+--------------+--------------+--------------+--------------+--------------+--------------+");
             }
         }
         
-        System.out.println("└──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────┴──────────────┘");
+        System.out.println("+--------------+--------------+--------------+--------------+--------------+--------------+--------------+");
     }
 
     // helper method
