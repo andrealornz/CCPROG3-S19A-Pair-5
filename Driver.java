@@ -763,13 +763,12 @@ public class Driver {
 
                                 if (choice == 1) {
                                     System.out.println("\nAccount deletion successful. We hope to see you again " + Account.getCurrentAccount().getUsername() + "!");
-                                    // code below throws ConcurrentModificationException with line 965, makes no sense but doesnt alter functionality of final product
-                                    // for (Calendar calendar : Account.getCurrentAccount().getCalendarList()) {
-                                    //     if (!calendar.getAccess()) { // if calendar is private
-                                    //         Account.getCurrentAccount().deleteCalendar(calendar); // delete calendar from account
-                                    //     }
-                                    //     Account.getCurrentAccount().getCalendarList().remove(Account.getCurrentAccount().getDefaultCalendar()); // delete default calendar
-                                    // }
+                                    
+                                    for (Calendar calendar : Account.getCurrentAccount().getCalendarList()) {
+                                        if (!calendar.getAccess()) { // if calendar is private
+                                            Account.getCurrentAccount().deleteCalendar(calendar); // delete private calendars from account
+                                        }
+                                    } Account.getCurrentAccount().getCalendarList().remove(Account.getCurrentAccount().getDefaultCalendar()); // delete default calendar
                                     Account.getCurrentAccount().deleteAccount(); // set activity to false
                                     Account.logoutAccount();
                                     flag2 = false;
