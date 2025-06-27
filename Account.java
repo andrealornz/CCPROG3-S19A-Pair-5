@@ -56,10 +56,10 @@ public class Account {
     // methods
 
     /**
-     * returns true if it successfully creates a new account after searching accountList if it already exists
+     * creates a new account after searching accountList if it doesn't already exists
      * prerequisite: username and password are not empty
-     * @param newUsername
-     * @param newPassword 
+     * @param newUsername Inputted new username
+     * @param newPassword Inputted new password
      * @return true if successful
      */
     public static boolean createAccount(String newUsername, String newPassword) {
@@ -77,11 +77,13 @@ public class Account {
         return success;
     }
 
-    /*
-        creates calendar inside of either public list or user's calendar list then returns new calendar
-        with set name and set access if given name isnt username
-        @param newName
-        @param newAccess
+    /**
+     * creates calendar inside of either public list or user's calendar list then returns new calendar
+     * with set name and set access if given name isnt username
+     * prerequisite: newName is not empty
+     * @param newName Inputted calendar name
+     * @param newAccess true if public, false if private
+     * @return calendar Calendar object
      */
     public Calendar createCalendar(String newName, boolean newAccess) {
         Calendar newCalendar = null;
@@ -92,9 +94,11 @@ public class Account {
         return newCalendar;
     }
 
-    /*
-        adds given calendar into calendarList and returns true if successful
-        @param calendar
+    /**
+     * adds given calendar into calendarList
+     * prerequisite: calendar instance exists
+     * @param calendar instance to be added
+     * @return true if successful
      */
     public boolean acceptCalendar(Calendar calendar) {
         boolean success = false;
@@ -105,9 +109,11 @@ public class Account {
         return success;
     }
 
-    /*
-        removes given calendar from calendarList if public and returns true if successful
-        @param calendar
+    /**
+     * removes given public calendar from calendarList
+     * prerequisite: calendar instance exists
+     * @param calendar
+     * @return true if successful
      */
     public boolean removeCalendar(Calendar calendar) {
         boolean success = false;
@@ -117,10 +123,12 @@ public class Account {
         return success;
     }
 
-    /*
-        deletes given calendar reference from publicCalendarList and each account's own calendarList 
-        except for default calendar only if owned by account and returns true if successful
-        @param calendar
+    /**
+     * deletes given calendar reference from publicCalendarList and each account's own calendarList 
+     * except for default calendar only if owned by account
+     * prerequisite: calendar instance exists
+     * @param calendar
+     * @return true if successful
      */
     public boolean deleteCalendar(Calendar calendar) {
         boolean success = false;
@@ -133,10 +141,12 @@ public class Account {
         return success;
     }
 
-    /*
-        sets current session (currentAccount) to account with matching credentials and returns true if successful
-        @param inputUsername
-        @param inputPassword
+    /**
+     * sets current session (currentAccount) to account with matching credentials
+     * prerequisite: input username and password are not empty
+     * @param inputUsername
+     * @param inputPassword
+     * @return true if successful
      */
     public static boolean loginAccount(String inputUsername, String inputPassword) {
         boolean success = false;
@@ -149,13 +159,18 @@ public class Account {
         return success;
     }
 
-    /*
-        sets current sessions (currentAccount) to null
+    /**
+     * sets current session's (currentAccount) to null
+     * @return void
      */
     public static void logoutAccount() {
         currentAccount = null;
     }
-
+    
+    /**
+     * sets current session's (currentAccount) activity to false
+     * @return void
+     */
     public void deleteAccount() {
         this.activity = false;
     }
