@@ -12,17 +12,27 @@ public class Driver {
 
     // displays the main menu
     public static int displayMainMenu() {
-        int choice;
+        int choice = 0;
+        boolean flag = true;
 
-        System.out.println("\n=== Main Calendar Menu ===\n");
-        System.out.println("Welcome, " + Account.getCurrentAccount().getUsername() + "!");
-        System.out.println("[1] View Calendars"); // shows a list of the user's calendars and offers options
-        System.out.println("[2] Add Calendar"); // creates (public/private) or adds a calendar (from public list)
-        System.out.println("[3] Account Settings"); // allows account deletion, logging out, and exiting application
-        System.out.print("Enter your choice: ");
-        choice = sc.nextInt();
-        sc.nextLine();
+        while (flag) {
+            System.out.println("\n=== Main Calendar Menu ===\n");
+            System.out.println("Welcome, " + Account.getCurrentAccount().getUsername() + "!");
+            System.out.println("[1] View Calendars"); // shows a list of the user's calendars and offers options
+            System.out.println("[2] Add Calendar"); // creates (public/private) or adds a calendar (from public list)
+            System.out.println("[3] Account Settings"); // allows account deletion, logging out, and exiting application
+            System.out.print("Enter your choice: ");
 
+            if (sc.hasNextInt()) {
+                choice = sc.nextInt();
+                sc.nextLine();
+                flag = false;
+            } else {
+                System.out.println("\nInvalid input. Please enter a valid number.");
+                sc.nextLine();
+            }
+        }
+        
         return choice;
     }
 
@@ -120,6 +130,8 @@ public class Driver {
                                 sc.nextLine(); // clears invalid input
                             }
                         }
+                    } else {
+                        System.out.println("\nInvalid choice. Please try again.");
                     }
                 } else {
                     System.out.println("\nInvalid input. Please enter a valid number.");
@@ -197,10 +209,10 @@ public class Driver {
                     handleManageEntries(calendar, selectedDate); // passes the calendar instance and the specific day for the month and year
                     flag = false;
                 } else {
-                    System.out.println("Invalid day. Please enter a day between 1 and " + currentMonth.lengthOfMonth() + ".");
+                    System.out.println("\nInvalid day. Please enter a day between 1 and " + currentMonth.lengthOfMonth() + ".");
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid day number.");
+                System.out.println("\nInvalid input. Please enter a valid number.");
                 sc.nextLine(); // clears invalid input
             }
         }
@@ -307,9 +319,9 @@ public class Driver {
                         System.out.print("Details: ");
                         String details = sc.nextLine();
                         if (calendar.createEntry(title, date, startTime, endTime, details)) { // create entry from calendar instance
-                            System.out.println("\nSuccessfully created Entry \"" + title + "\" from " + startTime + " to " + endTime);
+                            System.out.println("\nSuccessfully created entry \"" + title + "\" from " + startTime + " to " + endTime);
                         } else {
-                            System.out.println("Invalid entry. Please try again.");
+                            System.out.println("\nInvalid entry. Please try again.");
                         }
                         flag1 = false;
                         break;
@@ -360,10 +372,10 @@ public class Driver {
                             if (calendar.createEntry(newTitle, dDate, newStartTime, newEndTime, newDetails)) { // creates new entry with new details
                                 System.out.println("\nSuccessfully edited entry to " + newTitle);
                             } else {
-                                System.out.println("\nCould not edit Entry. Please try again.");
+                                System.out.println("\nCould not edit entry. Please try again.");
                             }
                         } else {
-                            System.out.println("\nCould not find Entry. Please try again.");
+                            System.out.println("\nCould not find entry. Please try again.");
                         }
                         flag1 = false;
                         break;
@@ -376,7 +388,7 @@ public class Driver {
 
                         flag2 = true;
                         while (flag2) {
-                            System.out.println("Are you sure you want to proceed?");
+                            System.out.println("\nAre you sure you want to proceed?");
                             System.out.println("[1] Yes");
                             System.out.println("[2] No");
                             System.out.print("Enter your choice: ");
@@ -385,15 +397,22 @@ public class Driver {
                                 choice = sc.nextInt();
                                 sc.nextLine();
 
-                                if (calendar.deleteEntry(dDate, dTitle)) {
-                                    System.out.println("\nSuccessfully deleted Entry \"" + dTitle + "\"");
+                                if (choice == 1) {
+                                    if (calendar.deleteEntry(dDate, dTitle)) {
+                                        System.out.println("\nSuccessfully deleted entry \"" + dTitle + "\"");
+                                    } else {
+                                        System.out.println("\nCould not delete entry. Pleaes try again.");
+                                    }
+                                    flag2 = false;
+                                    flag1 = false;
+                                } else if (choice == 2) {
+                                    flag2 = false;
+                                    flag1 = false;
                                 } else {
-                                    System.out.println("\nCould not delete Entry. Pleaes try again.");
-                                }
-                                flag2 = false;
-                                flag1 = false;
+                                    System.out.println("\nInvalid choice. Please try again.");
+                                }                              
                             } else {
-                                System.out.println("Invalid input. Please enter a valid day number.");
+                                System.out.println("\nInvalid input. Please enter a valid day number.");
                                 sc.nextLine(); // clears invalid input
                             }
                         }
@@ -406,7 +425,7 @@ public class Driver {
                         break;
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid day number.");
+                System.out.println("\nInvalid input. Please enter a valid day number.");
                 sc.nextLine(); // clears invalid input
             }
         }
@@ -457,12 +476,13 @@ public class Driver {
         YearMonth specificMonth = YearMonth.now();
 
         while (flag1) { // loops until user inputs a valid month
+            System.out.println("\n== View Specific Month == ");
             System.out.print("Enter Month [1 - 12]: ");
             if (sc.hasNextInt()) {
                 int month = sc.nextInt();
                 sc.nextLine();
 
-                if (month >= 1 || month <= 12) { // if month is 1 to 12
+                if (month >= 1 && month <= 12) { // if month is 1 to 12
                     boolean flag2 = true;
                     while (flag2) {
                         System.out.print("Enter Year: "); 
@@ -483,10 +503,10 @@ public class Driver {
                         }
                     }
                 } else {
-                    System.out.println("Invalid month. Please enter a month between 1 and 12.");
+                    System.out.println("\nInvalid month. Please enter a month between 1 and 12.\n");
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid month number.");
+                System.out.println("\nInvalid input. Please enter a valid number.\n");
                 sc.nextLine();
             }
         }
@@ -543,10 +563,10 @@ public class Driver {
                     } else if (choice == 2) {
                         flag = false;
                     } else {
-                        System.out.println("Invalid choice. Please try again");
+                        System.out.println("\nInvalid choice. Please try again\n");
                     }
                 } else {
-                    System.out.println("Invalid input. Please enter a valid number");
+                    System.out.println("\nInvalid input. Please enter a valid number\n");
                     sc.nextLine(); // clears invalid input
                 }
                 
@@ -584,7 +604,7 @@ public class Driver {
                         System.out.println("\nInvalid choice. Please try again.");
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid number");
+                System.out.println("\nInvalid input. Please enter a valid number");
                 sc.nextLine(); // clears invalid input
             }
         }
@@ -634,7 +654,7 @@ public class Driver {
                     System.out.println("\nInvalid choice. Please try again.\n");
                 }
             } else {
-                System.out.println("Invalid input. Please enter a valid number");
+                System.out.println("\nInvalid input. Please enter a valid number\n");
                 sc.nextLine(); // clears invalid input
             }
         }
@@ -693,7 +713,7 @@ public class Driver {
                         flag = false;
                     }
                 } else {
-                    System.out.println("Invalid input. Please enter a valid number");
+                    System.out.println("\nInvalid input. Please enter a valid number");
                     sc.nextLine(); // clears invalid input
                 }
             }
@@ -744,7 +764,7 @@ public class Driver {
                                     System.out.println("\nInvalid choice. Please try again.");
                                 }
                             } else {
-                                System.out.println("Invalid input. Please enter a valid number");
+                                System.out.println("\nInvalid input. Please enter a valid number");
                                 sc.nextLine(); // clears invalid input
                             }
                         }
@@ -779,7 +799,7 @@ public class Driver {
                                     System.out.println("\nInvalid choice. Please try again.");
                                 }
                             } else {
-                                System.out.println("Invalid input. Please enter a valid number");
+                                System.out.println("\nInvalid input. Please enter a valid number");
                                 sc.nextLine(); // clears invalid input
                             }
                         }
@@ -810,7 +830,7 @@ public class Driver {
                                     System.out.println("\nInvalid choice. Please try again.");
                                 }
                             } else {
-                                System.out.println("Invalid input. Please enter a valid number");
+                                System.out.println("\nInvalid input. Please enter a valid number");
                                 sc.nextLine(); // clears invalid input
                             }
                         }
@@ -860,7 +880,7 @@ public class Driver {
                             System.out.print("Username: ");
                             username = sc.nextLine();
                             if (username.trim().isEmpty()) { // checks if username is empty
-                                System.out.println("\nUsername cannot be empty. Please try again");
+                                System.out.println("\nUsername cannot be empty. Please try again\n");
                             } else {
                                 flag2 = false;
                             }
@@ -870,7 +890,7 @@ public class Driver {
                             System.out.print("Password: ");
                             password = sc.nextLine();
                             if (password.trim().isEmpty()) { // checks if password is empty
-                                System.out.println("\nPassword cannot be empty. Please try again");
+                                System.out.println("\nPassword cannot be empty. Please try again\n");
                             } else {
                                 flag2 = false;
                             }
@@ -892,7 +912,7 @@ public class Driver {
                             System.out.print("Username: ");
                             username = sc.nextLine();
                             if (username.trim().isEmpty()) { // checks if username is empty
-                                System.out.println("\nUsername cannot be empty. Please try again");
+                                System.out.println("\nUsername cannot be empty. Please try again\n");
                             } else {
                                 flag2 = false;
                             }
@@ -902,7 +922,7 @@ public class Driver {
                             System.out.print("Password: ");
                             password = sc.nextLine();
                             if (password.trim().isEmpty()) { // checks if password is empty
-                                System.out.println("\nPassword cannot be empty. Please try again");
+                                System.out.println("\nPassword cannot be empty. Please try again\n");
                             } else {
                                 flag2 = false;
                             }
@@ -920,6 +940,7 @@ public class Driver {
                         flag2 = true;
 
                         while (flag2) {
+                            System.out.println("\n== Exit Application ==");
                             System.out.println("Are you sure you want to proceed?");
                             System.out.println("[1] Yes");
                             System.out.println("[2] No");
@@ -933,11 +954,13 @@ public class Driver {
                                     System.out.println("\nThank you for using our Digital Calendar!");
                                     flag2 = false;
                                     flag = false;
-                                } else {
+                                } else if (choice == 2){
                                     flag2 = false;
+                                } else {
+                                    System.out.println("\nInvalid choice. Please try again.");
                                 }
                             } else {
-                                System.out.println("Invalid input. Please enter a valid number");
+                                System.out.println("\nInvalid input. Please enter a valid number");
                                 sc.nextLine(); // clears invalid input
                             }
                         }
@@ -945,7 +968,7 @@ public class Driver {
                         System.out.println("\nInvalid choice. Please try again.");
                     }    
                 } else {
-                    System.out.println("Invalid input. Please enter a valid number");
+                    System.out.println("\nInvalid input. Please enter a valid number");
                     sc.nextLine(); // clears invalid input
                 }
             }
