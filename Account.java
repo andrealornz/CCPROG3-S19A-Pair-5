@@ -55,20 +55,22 @@ public class Account {
 
     // methods
 
-    /*
-        returns true if it successfully creates a new account after searching accountList if it already exists
-        @param newUsername
-        @param newPassword 
+    /**
+     * returns true if it successfully creates a new account after searching accountList if it already exists
+     * prerequisite: username and password are not empty
+     * @param newUsername
+     * @param newPassword 
+     * @return true if successful
      */
     public static boolean createAccount(String newUsername, String newPassword) {
         boolean accExists = false;
         boolean success = false;
-        for (Account acc : accountList) { 
+        for (Account acc : accountList) { //search accountList for existing users with same input username
             if (acc.getUsername().equals(newUsername)) { 
                 accExists = true; 
             }
         }
-        if (accExists != true) {
+        if (accExists != true) { //no users with same input username
             accountList.add(new Account(newUsername, newPassword)); // waits for loop to terminate before creating account
             success = true;
         }
