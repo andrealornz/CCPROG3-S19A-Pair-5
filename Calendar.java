@@ -3,6 +3,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
 
+/**
+ * This is the Calendar class, its instances are owned by an Account
+ */
 public class Calendar {
     // attributes
     private String name;
@@ -11,7 +14,12 @@ public class Calendar {
     private final ArrayList<Entry> entries;
     private static ArrayList<Calendar> publicCalendarList;
 
-    // class constructor
+    /**
+     * the constructor wherein providing the calendar name, owner, and access type creates a Calendar instance
+     * @param name the inputted calendar name
+     * @param owner the calendar's owner
+     * @param access the inputted access type (public/private)
+     */
     public Calendar(String name, String owner, boolean access) {
         this.name = name;
         this.owner = owner;
@@ -19,11 +27,15 @@ public class Calendar {
         this.entries = new ArrayList<Entry>();
 
         if (access) { // immediately adds to public calendar list
-            getPublicCalendarList().add(this); //leaking warning occurs at end of constructor so its fine
+            getPublicCalendarList().add(this); 
         }
     }
     
     // getters & setters
+    /**
+     * retrieves the Calendar class' static public calendar list for all calendar instances to access
+     * @return the public calendar list of the class
+     */
     public static ArrayList<Calendar> getPublicCalendarList() {
         if (publicCalendarList == null) {
             Calendar.publicCalendarList = new ArrayList<Calendar>();
@@ -31,47 +43,43 @@ public class Calendar {
         return publicCalendarList;
     }
     
+    /**
+     * retrieves the name of a calendar instance
+     * @return the name 
+     */
     public String getName() {
         return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * retrieves the owner of a calendar instance
+     * @return the owner
+     */
     public String getOwner() {
         return this.owner;
     }
 
+    /**
+     * retrieves the access type of a calendar (public/private) instance
+     * @return the access type
+     */
     public boolean getAccess() {
         return this.access;
     }
 
-    /*
-        setter method adds and removes this calendar instance from public calendar list according to given access
-        returns true if successful
-        @param access
+    /**
+     * retrieves the list of entries of a calendar instance
+     * @return the entries list
      */
-    public boolean setAccess(boolean access) {
-        boolean success = false;
-        // private to public 
-        if (!this.access && access) {
-            success = getPublicCalendarList().add(this);
-            this.access = access;
-        }
-        // public to private
-        else if (this.access && !access) {
-            success = removeFromPublicList(this);
-            this.access = access;
-        }
-        
-        return success;
-    }
-
     public ArrayList<Entry> getEntries() {
         return this.entries;
     }
 
+    /**
+     * retrieves the list of entries for a specific date on a calendar instance
+     * @param date the date where the entries will be retrieved from
+     * @return the entries list
+     */
     public ArrayList<Entry> getEntriesForDate(LocalDate date) {
         ArrayList<Entry> entriesForDate = new ArrayList<Entry>();
 
@@ -86,10 +94,11 @@ public class Calendar {
 
     // methods
 
-    /*
-        searches publicCalendarList and each account (except for the owner) for given calendar instance and removes it.
-        returns true if successful
-        @param calendar
+    /**
+     * searches publicCalendarList and each account (except for the owner) for given calendar instance and removes it from non-owner lists and the public calendar list
+     * pre-condition: calendar instance exists
+     * @param calendar the calendar instance to be removed
+     * @return true if successful
      */
     public static boolean removeFromPublicList(Calendar calendar) {
         boolean success = false;
@@ -105,14 +114,15 @@ public class Calendar {
         return success;
     }
 
-    /*
-        searches if any entry in entry list has same title as given title params and creates new entry if false.
-        returns true if successful
-        @param title
-        @param date
-        @param startTime
-        @param endTime
-        @param details
+    /**
+     * searches if an entry in the entry list has the same title as given title paramameter and creates a new entry if false
+     * pre-condition: title is not empty and the date and time are in the correct format (details may be empty)
+     * @param title the entry title
+     * @param date the date where the entry can be found
+     * @param startTime the time that the entry starts
+     * @param endTime the time that the entry ends
+     * @param details the specific entry details
+     * @return true if successful
      */
     public boolean createEntry(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String details) {
         boolean success = true;
@@ -127,10 +137,12 @@ public class Calendar {
         return success;
     }
 
-    /*
-        searches entry list for entry with given date and title and removes it. returns true if successful
-        @param date
-        @param title
+    /**
+     * searches entry list for entry with given date and title and removes it
+     * pre-condition: entry title on the date exists
+     * @param date the date where the entry can be found
+     * @param title the entry to be deleted is based on this title
+     * @return true if successful
      */
     public boolean deleteEntry(LocalDate date, String title) {
         boolean success = false;
@@ -149,10 +161,11 @@ public class Calendar {
         return success;
     }
 
-    /* 
-        displays the monthly calendar view for the selected month
-        @param currentMonth - the month to be viewed
-    */
+    /**
+     * displays the monthly view or the calendar itself
+     * pre-condition: month and year to be viewed is provided
+     * @param currentMonth the month and year to be viewed 
+     */
     public void displayMonthlyView(YearMonth currentMonth) {
         Account currentAccount = Account.getCurrentAccount();
         System.out.println("\n== " + currentAccount.getUsername() + "'s \"" + this.name + "\" Calendar ==");
