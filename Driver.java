@@ -5,12 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This is the Driver class that handles all displays and validating user inputs
+ */
 public class Driver {
     private static Scanner sc = new Scanner(System.in);
 
     // helper methods
 
-    // displays the main menu
+    /**
+     * displays the main menu and gets the user's input
+     * @return the user's input
+     */
     public static int displayMainMenu() {
         int choice = 0;
         boolean flag = true;
@@ -36,7 +42,9 @@ public class Driver {
         return choice;
     }
 
-    // handles view calendar option from the main menu
+    /**
+     * handles displaying the view calendar option from the main menu, displaying the user's calendar list and gives options for a selected calendar (view/delete)
+     */
     public static void handleViewCalendars() {
         boolean flag1 = true;
 
@@ -141,9 +149,10 @@ public class Driver {
         }
     }
     
-    /* handles the view specific calendar option in the view calendars menu
-       @param calendar - the selected calendar instance to be viewed 
-    */
+    /**
+     * handles the view specific calendar option from the view calendar menu, gives options to view specific months and years, and options for entries
+     * @param calendar the calendar instance to be viewed
+     */
     public static void handleViewCalendar(Calendar calendar) {
         boolean flag = true;
         YearMonth currentMonth = YearMonth.now(); // default display is the current month and year
@@ -189,10 +198,11 @@ public class Driver {
         }
     }
 
-    /* handles viewing monthly date entries from the view specific calendar menu
-       @param calendar - the selected calendar instance to be viewed
-       @param currentMonth - the selected month and year
-    */
+    /**
+     * handles the view specific date entries under the view specific calendar menu, selecting a specific date to manage entries
+     * @param calendar the calendar instance to be managed
+     * @param currentMonth the month and year to be managed
+     */
     public static void handleViewDateEntries(Calendar calendar, YearMonth currentMonth) {
         boolean flag = true;
 
@@ -218,10 +228,11 @@ public class Driver {
         }
     }
     
-    /* handles managing the entries after viewing the monthly date entries
-       @param calendar - the selected calendar instance to be viewed
-       @param date - the selected date on that specific month and year
-    */
+    /**
+     * handles viewing and managing entries for a specific day of a month and year, allows adding, editing, and deleting entires
+     * @param calendar the calendar instance to be managed
+     * @param date the specific date to be managed
+     */
     public static void handleManageEntries(Calendar calendar, LocalDate date) {
         ArrayList<Entry> entries = calendar.getEntriesForDate(date); // array for the entries of a specific date
 
@@ -431,10 +442,11 @@ public class Driver {
         }
     }
 
-    /* cheks if the time input is valid
-       @param time - the time to be checked
-       returns validity (true or false)
-    */
+    /**
+     * checks if a given start time and end time for the entires are valid
+     * @param time the time to be checked for validity
+     * @return true if time is valid
+     */
     public static boolean isValidTime(String time) { 
         boolean valid = true;
 
@@ -469,8 +481,10 @@ public class Driver {
         return valid;
     }
 
-    /* moves the calendar display to a specific month
-       returns the year and month*/
+    /**
+     * gets the input for selecting a specific month and year to be viewed on the calendar
+     * @return the inputted valid month and year
+     */
     public static YearMonth handleSpecificMonth() {
         boolean flag1 = true;
         YearMonth specificMonth = YearMonth.now();
@@ -513,9 +527,10 @@ public class Driver {
         return specificMonth;
     }
 
-    /* deletes either a public or private instance from an account, or removes a publicly added calendar
-       @param calendar - the calendar to be deleted
-    */
+    /**
+     * handles deleting the selected calendar from the view calendars menu
+     * @param calendar the calendar instance to be deleted
+     */
     public static void handleDeleteCalendar(Calendar calendar) {
         Account currentAccount = Account.getCurrentAccount();
         
@@ -574,7 +589,9 @@ public class Driver {
         }
     }
 
-    // handles add calendar option from the main menu
+    /**
+     * handles the add calendars option from the main manu, gives the option to create new calendars or add from existing ones
+     */
     public static void handleAddCalendars() {
         int choice;
         boolean flag = true;
@@ -610,7 +627,9 @@ public class Driver {
         }
     }
 
-    // handles creating a new calendar owned by the user
+    /**
+     * handles the create new calendar option from the add calendars menu, allows the user to create their own calendars
+     */
     public static void handleCreateNewCalendar() {
         boolean flag = true;
         String newName = "";
@@ -632,7 +651,7 @@ public class Driver {
         }
         flag = true;
 
-        while (flag) {
+        while (flag) { // loops until user enters a valid number
             System.out.println("Set Calendar Access: ");
             System.out.println("[1] Private");
             System.out.println("[2] Public");
@@ -663,7 +682,9 @@ public class Driver {
         System.out.println("\n[" + displayAccess + "] Calendar \"" + newCalendar.getName() + "\" is created successfully!");
     }
 
-    // handles adding an existing calendar owned by another user
+    /**
+     * handles the add existing calendar option from the add calendars menu, displaying avaiable public calendars to be linked to the account
+     */
     public static void handleAddExistingCalendar() {
         System.out.println("\n== Add Existing Public Calendar ==");
 
@@ -720,7 +741,10 @@ public class Driver {
         }
     }
 
-    // handles account settings option from the main menu
+    /**
+     * handles the account settings option from the main menu, allows logging out, account deletion, and exiting application
+     * @return returns an exit flag for when a user wants to exit the application
+     */
     public static boolean handleAccountSettings() {
         int choice;
         boolean flag1 = true;
@@ -848,7 +872,11 @@ public class Driver {
         return exit;
     }
 
-    // main method
+    /**
+     * the main method
+     * handles the account sign in options and manages whether an account is logged in or not
+     * @param args (not used)
+     */
     public static void main(String[] args) {
         boolean flag = true;
         boolean flag2 = true;
