@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * This is the Account class, the top-level class
+ */
+
 public class Account {
     // attributes
     private static ArrayList<Account> accountList = new ArrayList<Account>(); //array list of all accounts in system
@@ -11,6 +15,11 @@ public class Account {
     private ArrayList<Calendar> calendarList; //array list of account's private and linked public calendars
 
     // class constructor
+    /**
+     * the constructor wherein providing the username and password creates an Account instance
+     * @param newUsername the inputted new username
+     * @param newPassword the inputted new password
+     */
     public Account (String newUsername, String newPassword) {
         this.username = newUsername;
         this.password = newPassword;
@@ -21,34 +30,66 @@ public class Account {
     }
 
     // getters, setters
+    /**
+     * retrieves the Account class' static accountList
+     * @return the accountList of the class
+     */
     public static ArrayList<Account> getAccountList() {
         return accountList;
     }
 
+    /**
+     * retrieves the current account
+     * @return the current account
+     */
     public static Account getCurrentAccount() {
         return currentAccount;
     }
 
+    /**
+     * retrieves the username of an account
+     * @return the username
+     */
     public String getUsername() {
         return this.username;
     }
 
-    public String getPassword() { //would ironically be a massive security risk
+    /**
+     * retrieves the password of an account
+     * @return the password
+     */
+    public String getPassword() { 
         return this.password;
     }
 
+    /**
+     * retrieves the activity (active or deleted) of an account
+     * @return the activity
+     */
     public boolean getActivity() {
         return this.activity;
     }
 
+    /**
+     * sets the activity of an account instance
+     * @param newActivity the activity to be set
+     */
     public void setActivity(boolean newActivity) {
         this.activity = newActivity;
     }
 
+    /**
+     * retrieves the default calendar instance of an account
+     * @return the default calendar
+     */
     public Calendar getDefaultCalendar() {
         return this.defaultCalendar;
     }
 
+    /**
+     * retrieves the list of calendars of an account (created/added)
+     * @return the calendar list
+     */
     public ArrayList<Calendar> getCalendarList() {
         return this.calendarList;
     }
@@ -57,9 +98,9 @@ public class Account {
 
     /**
      * creates a new account after searching accountList if it doesn't already exists
-     * prerequisite: username and password are not empty
-     * @param newUsername Inputted new username
-     * @param newPassword Inputted new password
+     * pre-condition: username and password are not empty
+     * @param newUsername the inputted new username
+     * @param newPassword the inputted new password
      * @return true if successful
      */
     public static boolean createAccount(String newUsername, String newPassword) {
@@ -80,8 +121,8 @@ public class Account {
     /**
      * creates calendar inside of either public list or user's calendar list then returns new calendar
      * with set name and set access if given name isnt username
-     * prerequisite: newName is not empty
-     * @param newName Inputted calendar name
+     * pre-condition: newName is not empty
+     * @param newName the inputted calendar name
      * @param newAccess true if public, false if private
      * @return calendar Calendar object
      */
@@ -96,8 +137,8 @@ public class Account {
 
     /**
      * adds given calendar into calendarList
-     * prerequisite: calendar instance exists
-     * @param calendar instance to be added
+     * pre-condition: calendar instance exists
+     * @param calendar the instance to be added
      * @return true if successful
      */
     public boolean acceptCalendar(Calendar calendar) {
@@ -111,8 +152,8 @@ public class Account {
 
     /**
      * removes given public calendar from calendarList
-     * prerequisite: calendar instance exists
-     * @param calendar
+     * pre-condition: calendar instance exists
+     * @param calendar the instance to be removed
      * @return true if successful
      */
     public boolean removeCalendar(Calendar calendar) {
@@ -126,8 +167,8 @@ public class Account {
     /**
      * deletes given calendar reference from publicCalendarList and each account's own calendarList 
      * except for default calendar only if owned by account
-     * prerequisite: calendar instance exists
-     * @param calendar
+     * pre-condition: calendar instance exists
+     * @param calendar the instance to be deleted
      * @return true if successful
      */
     public boolean deleteCalendar(Calendar calendar) {
@@ -143,9 +184,9 @@ public class Account {
 
     /**
      * sets current session (currentAccount) to account with matching credentials
-     * prerequisite: input username and password are not empty
-     * @param inputUsername
-     * @param inputPassword
+     * pre-condition: input username and password are not empty
+     * @param inputUsername the inputted existing username
+     * @param inputPassword the inputted existing password
      * @return true if successful
      */
     public static boolean loginAccount(String inputUsername, String inputPassword) {
@@ -161,7 +202,6 @@ public class Account {
 
     /**
      * sets current session's (currentAccount) to null
-     * @return void
      */
     public static void logoutAccount() {
         currentAccount = null;
@@ -169,7 +209,6 @@ public class Account {
     
     /**
      * sets current session's (currentAccount) activity to false
-     * @return void
      */
     public void deleteAccount() {
         this.activity = false;
