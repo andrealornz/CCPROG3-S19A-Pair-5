@@ -1,4 +1,4 @@
-public class Food extends Item {
+public class Food extends Item implements Sellable {
     private int nutritionValue;
 
     public Food(String name, double weight, int nutritionValue) {

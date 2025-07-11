@@ -1,4 +1,4 @@
-public class Jewelry extends Item {
+public class Jewelry extends Item implements Sellable {
     private double carats;
 
     public Jewelry(String name, double weight, double carats) {
