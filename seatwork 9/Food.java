@@ -7,6 +7,7 @@ public class Food extends Item {
     }
 
     public double computePrice() {
-        
+        double price = this.nutritionValue * 10;
+        return price;
     }
 }

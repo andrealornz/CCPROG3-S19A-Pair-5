@@ -7,6 +7,7 @@ public class Jewelry extends Item {
     }
 
     public double computePrice() {
-        
+        double price = this.carats * 100;
+        return price;
     }
 }
