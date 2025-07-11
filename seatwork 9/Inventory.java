@@ -14,7 +14,7 @@ public class Inventory {
     public boolean sellItem(int index) {
         boolean success = false;
         Item get = this.itemList.get(index);
-        if(!get.equals(Scrap)) {
+        if(!get instanceof Scrap) {
             get.computePrice();
             success = true;
             this.itemList.remove(get);
@@ -24,7 +24,7 @@ public class Inventory {
 
     public void displayItemInformation() {
         for (Item item : this.itemList) {
-            if (!item.equals(Scrap)) {
+            if (!item instanceof Scrap) {
                 print(item.getName() + " (weight " + item.getWeight() + ") (sellable)");
             } else {
                 print(item.getName() + " (weight " + item.getWeight() + ")");
