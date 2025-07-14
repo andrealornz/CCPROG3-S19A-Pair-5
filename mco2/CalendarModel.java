@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CalendarModel {
@@ -58,8 +59,20 @@ public class CalendarModel {
         return toBeSorted;
     }
 
-    public boolean createEntry(Calendar calendar, Entry entry) { //just pass a constructor function
-        return calendar.getEntries().add(entry);
+    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details) {
+        return new Journal(date, title, details);
+    }
+
+    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details, LocalTime startTime, LocalTime endTime) {
+        return new Event(date, title, details, title, details, startTime, endTime);
+    }
+
+    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details, int priority, boolean status, String createdBy, String finishedBy) {
+        return new Task(date, title, details, priority, status, createdBy, finishedBy);
+    }
+
+    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details, String modality, String venue, String link, LocalTime startTime, LocalTime endTime) {
+        return new Meeting(date, title, details, modality, venue, link, startTime, endTime);
     }
 
     public boolean deleteEntry(Calendar calendar, Entry entry) {
@@ -67,6 +80,6 @@ public class CalendarModel {
     }
 
     public boolean editEntry(Calendar calendar, Entry oldEntry, Entry newEntry) {
-        return createEntry(calendar, newEntry) && deleteEntry(calendar, oldEntry);
+        return calendar.getEntries().add(newEntry) && deleteEntry(calendar, oldEntry);
     }
 }
