@@ -2,18 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class AccountSettingsView {
+public class NewCalendarsView {
     private JPanel panel;
     private JLabel titleLbl;
-    private JButton logOutBtn, deleteBtn, backBtn;
+    private JButton createBtn, addBtn, backBtn;
     private JSeparator separator;
 
-    public AccountSettingsView() {
+    public NewCalendarsView() {
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+        this.panel.setAlignmentY(Component.CENTER_ALIGNMENT);
         
         // title label
-        this.titleLbl = new JLabel("Account Settings");
+        this.titleLbl = new JLabel("Add New Calendars");
         this.titleLbl.setPreferredSize(new Dimension(500, 70));
         this.titleLbl.setMaximumSize(new Dimension(500, 70));
         this.titleLbl.setMinimumSize(new Dimension(500, 70));
@@ -29,23 +30,23 @@ public class AccountSettingsView {
         this.separator.setForeground(new Color(51, 51, 51));
 
         // buttons
-        this.logOutBtn = new JButton("Log-Out");
-        this.logOutBtn.setPreferredSize(new Dimension(240, 50));
-        this.logOutBtn.setMaximumSize(new Dimension(240, 50));
-        this.logOutBtn.setMinimumSize(new Dimension(240, 50));
-        this.logOutBtn.setFont(new Font("Century Gothic", 0, 24));
-        this.logOutBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
-        this.logOutBtn.setForeground(new Color(51, 51, 51));
-        this.logOutBtn.setContentAreaFilled(false);
+        this.createBtn = new JButton("Create New");
+        this.createBtn.setPreferredSize(new Dimension(240, 50));
+        this.createBtn.setMaximumSize(new Dimension(240, 50));
+        this.createBtn.setMinimumSize(new Dimension(240, 50));
+        this.createBtn.setFont(new Font("Century Gothic", 0, 24));
+        this.createBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
+        this.createBtn.setForeground(new Color(51, 51, 51));
+        this.createBtn.setContentAreaFilled(false);
 
-        this.deleteBtn = new JButton("Delete Account");
-        this.deleteBtn.setPreferredSize(new Dimension(240, 50));
-        this.deleteBtn.setMaximumSize(new Dimension(240, 50));
-        this.deleteBtn.setMinimumSize(new Dimension(240, 50));
-        this.deleteBtn.setFont(new Font("Century Gothic", 0, 24));
-        this.deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
-        this.deleteBtn.setForeground(new Color(51, 51, 51));
-        this.deleteBtn.setContentAreaFilled(false);
+        this.addBtn = new JButton("Add Existing");
+        this.addBtn.setPreferredSize(new Dimension(240, 50));
+        this.addBtn.setMaximumSize(new Dimension(240, 50));
+        this.addBtn.setMinimumSize(new Dimension(240, 50));
+        this.addBtn.setFont(new Font("Century Gothic", 0, 24));
+        this.addBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
+        this.addBtn.setForeground(new Color(51, 51, 51));
+        this.addBtn.setContentAreaFilled(false);
 
         this.backBtn = new JButton("Back");
         this.backBtn.setPreferredSize(new Dimension(240, 50));
@@ -58,8 +59,8 @@ public class AccountSettingsView {
 
         // center panel components
         this.titleLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.logOutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.deleteBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.createBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -69,32 +70,25 @@ public class AccountSettingsView {
         this.panel.add(Box.createRigidArea(new Dimension(0, 20)));
         this.panel.add(separator);
         this.panel.add(Box.createRigidArea(new Dimension(0, 40)));
-        this.panel.add(logOutBtn);
+        this.panel.add(createBtn);
         this.panel.add(Box.createRigidArea(new Dimension(0, 20)));  
-        this.panel.add(deleteBtn);
+        this.panel.add(addBtn);
         this.panel.add(Box.createRigidArea(new Dimension(0, 20)));
         this.panel.add(backBtn);
         this.panel.add(Box.createVerticalGlue());
     }
     
     // listeners
-    public void setLogOutBtnListener(ActionListener actionListener) {
-        this.logOutBtn.addActionListener(actionListener);
+    public void setCreateBtnListener(ActionListener actionListener) {
+        this.createBtn.addActionListener(actionListener);
     }
     
-    public void setDeleteBtnListener(ActionListener actionListener) {
-        this.deleteBtn.addActionListener(actionListener);
+    public void setAddBtnListener(ActionListener actionListener) {
+        this.addBtn.addActionListener(actionListener);
     }
 
     public void setBackBtnListener(ActionListener actionListener) {
         this.backBtn.addActionListener(actionListener);
-    }
-
-    // helper methods
-    // used for log-out, delete account, and exit
-    public boolean showConfirmDialog() { // both options will go back to the settings menu (except for exit)
-        int option = JOptionPane.showConfirmDialog(this.panel, "Are you sure you want to proceed?", "Confirmation", JOptionPane.YES_NO_OPTION);
-        return option == JOptionPane.YES_OPTION;
     }
 
     // getters

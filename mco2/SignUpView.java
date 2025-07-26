@@ -17,40 +17,47 @@ public class SignUpView {
         this.titleLbl = new JLabel("Sign-Up a New Account");
         this.titleLbl.setPreferredSize(new Dimension(1000, 50));
         this.titleLbl.setMaximumSize(new Dimension(1000, 50));
+        this.titleLbl.setMinimumSize(new Dimension(1000, 50));
         this.titleLbl.setFont(new Font("Century Gothic", 1, 36));
         this.titleLbl.setForeground(new Color(51, 51, 51));
         this.titleLbl.setHorizontalAlignment(SwingConstants.CENTER);
 
         // separator
         this.separator = new JSeparator();
+        this.separator.setPreferredSize(new Dimension(500, 1));
         this.separator.setMaximumSize(new Dimension(500, 1));
+        this.separator.setMinimumSize(new Dimension(500, 1));
         this.separator.setForeground(new Color(51, 51, 51));
 
         // username & password label
         this.usernameLbl = new JLabel("Username:");
         this.usernameLbl.setPreferredSize(new Dimension(140, 50));
         this.usernameLbl.setMaximumSize(new Dimension(140, 50));
+        this.usernameLbl.setMinimumSize(new Dimension(140, 50));
         this.usernameLbl.setFont(new Font("Century Gothic", 0, 24));
         this.usernameLbl.setForeground(new Color(51, 51, 51)); 
         
         this.passwordLbl = new JLabel("Password:");
         this.passwordLbl.setPreferredSize(new Dimension(140, 50));
         this.passwordLbl.setMaximumSize(new Dimension(140, 50));
+        this.passwordLbl.setMinimumSize(new Dimension(140, 50));
         this.passwordLbl.setFont(new Font("Century Gothic", 0, 24));
         this.passwordLbl.setForeground(new Color(51, 51, 51)); 
 
         // username & password text field
         this.usernameTf = new JTextField();
-        this.usernameTf.setPreferredSize(new Dimension(260, 50));
-        this.usernameTf.setMaximumSize(new Dimension(260, 50));
+        this.usernameTf.setPreferredSize(new Dimension(240, 50));
+        this.usernameTf.setMaximumSize(new Dimension(240, 50));
+        this.usernameTf.setMinimumSize(new Dimension(240, 50));
         this.usernameTf.setFont(new Font("Century Gothic", 0, 18));
         this.usernameTf.setForeground(new Color(51, 51, 51));
         this.usernameTf.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)),
                                     BorderFactory.createEmptyBorder(0, 10, 0, 10)));
 
         this.passwordTf = new JTextField();
-        this.passwordTf.setPreferredSize(new Dimension(260, 50));
-        this.passwordTf.setMaximumSize(new Dimension(260, 50));
+        this.passwordTf.setPreferredSize(new Dimension(240, 50));
+        this.passwordTf.setMaximumSize(new Dimension(240, 50));
+        this.passwordTf.setMinimumSize(new Dimension(240, 50));
         this.passwordTf.setFont(new Font("Century Gothic", 0, 18));
         this.passwordTf.setForeground(new Color(51, 51, 51)); 
         this.passwordTf.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)),
@@ -61,6 +68,7 @@ public class SignUpView {
         this.usernamePanel.setLayout(new BoxLayout(this.usernamePanel, BoxLayout.X_AXIS));
         this.usernamePanel.setPreferredSize(new Dimension(400, 50));
         this.usernamePanel.setMaximumSize(new Dimension(400, 50));
+        this.usernamePanel.setMinimumSize(new Dimension(400, 50));
         this.usernamePanel.add(usernameLbl);
         this.usernamePanel.add(Box.createHorizontalStrut(10));
         this.usernamePanel.add(usernameTf);
@@ -69,6 +77,7 @@ public class SignUpView {
         this.passwordPanel.setLayout(new BoxLayout(this.passwordPanel, BoxLayout.X_AXIS));
         this.passwordPanel.setPreferredSize(new Dimension(400, 50));
         this.passwordPanel.setMaximumSize(new Dimension(400, 50));
+        this.passwordPanel.setMinimumSize(new Dimension(400, 50));
         this.passwordPanel.add(passwordLbl);
         this.passwordPanel.add(Box.createHorizontalStrut(10));
         this.passwordPanel.add(passwordTf);
@@ -77,6 +86,7 @@ public class SignUpView {
         this.cancelBtn = new JButton("Cancel");
         this.cancelBtn.setPreferredSize(new Dimension(140, 50));
         this.cancelBtn.setMaximumSize(new Dimension(140, 50));
+        this.cancelBtn.setMinimumSize(new Dimension(140, 50));
         this.cancelBtn.setFont(new Font("Century Gothic", 0, 24));
         this.cancelBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
         this.cancelBtn.setForeground(new Color(51, 51, 51));
@@ -86,6 +96,7 @@ public class SignUpView {
         this.signUpBtn = new JButton("Sign-Up");
         this.signUpBtn.setPreferredSize(new Dimension(240, 50));
         this.signUpBtn.setMaximumSize(new Dimension(240, 50));
+        this.signUpBtn.setMinimumSize(new Dimension(240, 50));
         this.signUpBtn.setFont(new Font("Century Gothic", 0, 24));
         this.signUpBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
         this.signUpBtn.setForeground(new Color(51, 51, 51));
@@ -96,6 +107,7 @@ public class SignUpView {
         this.signUpPanel.setLayout(new BoxLayout(this.signUpPanel, BoxLayout.X_AXIS));
         this.signUpPanel.setPreferredSize(new Dimension(400, 50));
         this.signUpPanel.setMaximumSize(new Dimension(400, 50));
+        this.signUpPanel.setMinimumSize(new Dimension(400, 50));
         this.signUpPanel.add(cancelBtn);
         this.signUpPanel.add(Box.createHorizontalStrut(10));
         this.signUpPanel.add(signUpBtn);
@@ -116,7 +128,7 @@ public class SignUpView {
         // add components to panel
         this.panel.add(Box.createVerticalGlue());
         this.panel.add(titleLbl);
-        this.panel.add(Box.createRigidArea(new Dimension(0, 40)));
+        this.panel.add(Box.createRigidArea(new Dimension(0, 30)));
         this.panel.add(separator);
         this.panel.add(Box.createRigidArea(new Dimension(0, 40)));
         this.panel.add(usernamePanel);

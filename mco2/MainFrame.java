@@ -13,8 +13,6 @@ public class MainFrame {
     private SignUpView signUpView;
     private MainMenuView mainMenuView;
     private AccountSettingsView accountSettingsView;
-    
-    /* still fixing these classes
     private CalendarsView calendarsView;
     private NewCalendarsView newCalendarsView;
     private CreateCalendarView createCalendarView;
@@ -23,7 +21,6 @@ public class MainFrame {
     private NewFamilyCalendarView newFamilyCalendarView;
     private NewPublicCalendarView newPublicCalendarView;
     private CalendarMonthlyView calendarMonthlyView;
-    */
 
     public MainFrame() {
         this.frame = new JFrame("The Digital Calendar");
@@ -52,9 +49,8 @@ public class MainFrame {
         this.accountSettingsView = new AccountSettingsView();
         cards.add(accountSettingsView.getPanel(), "SETTINGS");
 
-        /*
         this.calendarsView = new CalendarsView();
-        cards.add(calendarsView.getPanel(), "CALENDARS");
+        cards.add(calendarsView.getPanel(), "VIEW_CALENDARS");
 
         this.newCalendarsView = new NewCalendarsView();
         cards.add(newCalendarsView.getPanel(), "NEW_CALENDAR");
@@ -76,7 +72,6 @@ public class MainFrame {
 
         this.calendarMonthlyView = new CalendarMonthlyView();
         cards.add(calendarMonthlyView.getPanel(), "MONTHLY");
-        */
 
         this.frame.add(cards);
         this.frame.setVisible(true);
@@ -107,7 +102,6 @@ public class MainFrame {
         return this.accountSettingsView;
     }
 
-    /*
     public CalendarsView getCalendarsView() {
         return this.calendarsView;
     }
@@ -135,5 +129,8 @@ public class MainFrame {
     public NewPublicCalendarView getNewPublicCalendarView() {
         return this.newPublicCalendarView;
     }
-    */
+
+    public CalendarMonthlyView getCalendarMonthlyView() {
+        return this.calendarMonthlyView;
+    }
 }
