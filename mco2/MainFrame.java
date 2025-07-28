@@ -24,7 +24,10 @@ public class MainFrame {
     // weekly view
     // daily view
     private AddEntryView addEntryView;
-    private AddTaskEntryView addTaskEntryView;
+    private TaskEntryView taskEntryView;
+    private EventEntryView eventEntryView;
+    private MeetingEntryView meetingEntryView;
+    private JournalEntryView journalEntryView;
 
     public MainFrame() {
         this.frame = new JFrame("The Digital Calendar");
@@ -84,8 +87,17 @@ public class MainFrame {
         this.addEntryView = new AddEntryView();
         cards.add(addEntryView.getPanel(), "ADD_ENTRY");
 
-        this.addTaskEntryView = new AddTaskEntryView();
-        cards.add(addTaskEntryView.getPanel(), "ADD_TASK");
+        this.taskEntryView = new TaskEntryView();
+        cards.add(taskEntryView.getPanel(), "TASK");
+
+        this.eventEntryView = new EventEntryView();
+        cards.add(eventEntryView.getPanel(), "EVENT");
+
+        this.meetingEntryView = new MeetingEntryView();
+        cards.add(meetingEntryView.getPanel(), "MEETING");
+
+        this.journalEntryView = new JournalEntryView();
+        cards.add(journalEntryView.getPanel(), "JOURNAL");
 
         this.frame.add(cards);
         this.frame.setVisible(true);
@@ -146,5 +158,29 @@ public class MainFrame {
 
     public CalendarMonthlyView getCalendarMonthlyView() {
         return this.calendarMonthlyView;
+    }
+
+    // weekly
+
+    // daily
+
+    public AddEntryView getAddEntryView() {
+        return this.addEntryView;
+    }
+
+    public TaskEntryView getTaskEntryView() {
+        return this.taskEntryView;
+    }
+
+    public EventEntryView getEventEntryView() {
+        return this.eventEntryView;
+    }
+
+    public MeetingEntryView getMeetingEntryView() {
+        return this.meetingEntryView;
+    }
+
+    public JournalEntryView getJournalEntryView() {
+        return this.journalEntryView;
     }
 }

@@ -1,12 +1,12 @@
 import java.time.LocalDate;
 
 public class Task extends Entry {
-    private int priority;
-    private boolean status;
+    private String priority;
+    private String status;
     private String createdBy;
     private String finishedBy;
 
-    public Task (LocalDate date, String title, String details, int priority, boolean status, String createdBy, String finishedBy) {
+    public Task (LocalDate date, String title, String details, String priority, String status, String createdBy, String finishedBy) {
         super(date, title, details);
         this.priority = priority;
         this.status = status;
@@ -14,19 +14,19 @@ public class Task extends Entry {
         this.finishedBy = finishedBy;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return this.priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
-    public boolean getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

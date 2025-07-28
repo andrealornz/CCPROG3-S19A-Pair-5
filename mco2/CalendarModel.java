@@ -33,6 +33,7 @@ public class CalendarModel {
         return entriesForWeek;
     }
 
+    /* TO EDIT: because priority and status have been changed to String
     public ArrayList<Entry> sortEntries(ArrayList<Entry> entries) { //terrible algorithm
         ArrayList<Entry> toBeSorted = new ArrayList<Entry>();
         ArrayList<Task> tasks = new ArrayList<Task>();
@@ -57,7 +58,8 @@ public class CalendarModel {
         toBeSorted.addAll(sortedTasks);
         toBeSorted.addAll(others);
         return toBeSorted;
-    }
+    } 
+    */
 
     public Entry createEntry(Calendar calendar, LocalDate date, String title, String details) {
         return new Journal(date, title, details);
@@ -67,7 +69,7 @@ public class CalendarModel {
         return new Event(date, title, details, title, details, startTime, endTime);
     }
 
-    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details, int priority, boolean status, String createdBy, String finishedBy) {
+    public Entry createEntry(Calendar calendar, LocalDate date, String title, String details, String priority, String status, String createdBy, String finishedBy) {
         return new Task(date, title, details, priority, status, createdBy, finishedBy);
     }
 

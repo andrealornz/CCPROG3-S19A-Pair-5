@@ -7,6 +7,7 @@ public class AddEntryView {
     private JLabel titleLbl, menuLbl;
     private JButton taskBtn, eventBtn, meetingBtn, journalBtn, backBtn;
     private JSeparator separator;
+    private Component journalSpacing;
 
     public AddEntryView() {
         this.panel = new JPanel();
@@ -92,6 +93,9 @@ public class AddEntryView {
         this.backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.separator.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // journal spacing for showing
+        this.journalSpacing = Box.createRigidArea(new Dimension(0, 20));
+        
         // add components to panel
         this.panel.add(Box.createVerticalGlue());
         this.panel.add(titleLbl);
@@ -107,7 +111,7 @@ public class AddEntryView {
         this.panel.add(meetingBtn);
         this.panel.add(Box.createRigidArea(new Dimension(0, 20)));
         this.panel.add(journalBtn);
-        this.panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        this.panel.add(journalSpacing);
         this.panel.add(backBtn);
         this.panel.add(Box.createVerticalGlue());
     }
@@ -131,6 +135,17 @@ public class AddEntryView {
 
     public void setBackBtnListener(ActionListener actionListener) {
         this.backBtn.addActionListener(actionListener);
+    }
+
+    // helper methods
+    public void hideJournalBtn() { // hide for public and family calendars
+        this.journalBtn.setVisible(false);
+        this.journalSpacing.setVisible(false);
+    }
+
+    public void showJournalBtn() { // show for personal calendars
+        this.journalBtn.setVisible(true);
+        this.journalSpacing.setVisible(true);
     }
 
     // getters
