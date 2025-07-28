@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
 
-        mainFrame.showCard("MONTHLY");
+        mainFrame.showCard("ADD_TASK");
 
         /* testing buttons
         mainFrame.getSignInView().setLogInBtnListener(e -> {
@@ -47,6 +47,8 @@ public class Main {
         NEW_PUBLIC
         MONTHLY
         WEEKLY
+        ADD_ENTRY
+        ADD_TASK
          */
     }
 }

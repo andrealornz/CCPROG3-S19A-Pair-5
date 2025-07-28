@@ -15,8 +15,8 @@ public class AddEntryView {
         // title label
         this.titleLbl = new JLabel("Add New Enrty");
         this.titleLbl.setPreferredSize(new Dimension(600, 50));
-        this.titleLbl.setMaximumSize(new Dimension(600, 70));
-        this.titleLbl.setMinimumSize(new Dimension(600, 70));
+        this.titleLbl.setMaximumSize(new Dimension(600, 50));
+        this.titleLbl.setMinimumSize(new Dimension(600, 50));
         this.titleLbl.setFont(new Font("Century Gothic", 1, 48));
         this.titleLbl.setForeground(new Color(51, 51, 51));
         this.titleLbl.setHorizontalAlignment(SwingConstants.CENTER);

@@ -385,6 +385,66 @@ public class AddTaskEntryView {
         this.panel.add(errorLbl);
         this.panel.add(Box.createVerticalGlue());
     }
+    
+    // listeners & text field/combo box getters
+    public int getSelectedMonth() {
+        return (Integer) this.monthBox.getSelectedItem();
+    }
+
+    public int getSelectedDay() {
+        return (Integer) this.dayBox.getSelectedItem();
+    }
+
+    public int getSelectedYear() {
+        return (Integer) this.yearBox.getSelectedItem();
+    }
+
+    public String getEntryTitleTfText() {
+        return this.entryTitleTf.getText();
+    }
+
+    public int getSelectedPriority() {
+        return (Integer) this.priorityBox.getSelectedItem();
+    }
+
+    public int getSelectedStatus() {
+        return (Integer) this.statusBox.getSelectedItem();
+    }
+
+    public String getCreatedByTfText() {
+        return this.createdByTf.getText();
+    }
+
+    public String getFinishedByTfText() {
+        return this.finishedByTf.getText();
+    }
+
+    public String getDescriptionTaText() {
+        return this.descriptionTa.getText();
+    }
+
+    public void setCancelBtnListener(ActionListener actionListener) {
+        this.cancelBtn.addActionListener(actionListener);
+    }
+    
+    public void setAddBtnListener(ActionListener actionListener) {
+        this.addBtn.addActionListener(actionListener);
+    }
+
+    // helper methods
+    public void showError() { // if cannot create entry
+        this.errorLbl.setVisible(true);
+    }
+
+    public void hideError() { 
+        this.errorLbl.setVisible(false);
+    }
+
+    public void clearTextFields() {
+		this.entryTitleTf.setText("");
+		this.createdByTf.setText("");
+        this.finishedByTf.setText("");
+	}
 
     // getters
     public JPanel getPanel() {

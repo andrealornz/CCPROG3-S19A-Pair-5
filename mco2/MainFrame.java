@@ -21,6 +21,10 @@ public class MainFrame {
     private NewFamilyCalendarView newFamilyCalendarView;
     private NewPublicCalendarView newPublicCalendarView;
     private CalendarMonthlyView calendarMonthlyView;
+    // weekly view
+    // daily view
+    private AddEntryView addEntryView;
+    private AddTaskEntryView addTaskEntryView;
 
     public MainFrame() {
         this.frame = new JFrame("The Digital Calendar");
@@ -72,6 +76,16 @@ public class MainFrame {
 
         this.calendarMonthlyView = new CalendarMonthlyView();
         cards.add(calendarMonthlyView.getPanel(), "MONTHLY");
+
+        // weekly view
+
+        // daily view
+
+        this.addEntryView = new AddEntryView();
+        cards.add(addEntryView.getPanel(), "ADD_ENTRY");
+
+        this.addTaskEntryView = new AddTaskEntryView();
+        cards.add(addTaskEntryView.getPanel(), "ADD_TASK");
 
         this.frame.add(cards);
         this.frame.setVisible(true);

@@ -190,6 +190,10 @@ public class CalendarMonthlyView {
     public int getSelectedMonth() {
         return (Integer) this.monthBox.getSelectedItem();
     }
+    
+    public int getSelectedYear() {
+        return (Integer) this.yearBox.getSelectedItem();
+    }
 
     public void setDayPanelListener(ActionListener actionListener) { // makes the panels clickable
         if (this.dayPanel != null) {
@@ -208,10 +212,6 @@ public class CalendarMonthlyView {
                 }
             }
         }
-    }
-
-    public int getSelectedYear() {
-        return (Integer) this.yearBox.getSelectedItem();
     }
 
     // helper methods
