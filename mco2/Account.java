@@ -11,6 +11,7 @@ public class Account {
         this.password = password;
         this.activity = true;
         this.calendars = new ArrayList<Calendar>();
+        this.calendars.add(new Personal(this.username, this.username));
     }
 
     public String getUsername() {

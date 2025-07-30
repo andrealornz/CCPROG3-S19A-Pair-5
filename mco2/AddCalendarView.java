@@ -35,7 +35,7 @@ public class AddCalendarView {
         this.separator.setForeground(new Color(51, 51, 51));
 
         // public & family labels
-        this.publicLbl = new JLabel("Owned");
+        this.publicLbl = new JLabel("Public");
         this.publicLbl.setPreferredSize(new Dimension(100, 50));
         this.publicLbl.setMaximumSize(new Dimension(100, 50));
         this.publicLbl.setMinimumSize(new Dimension(100, 50));
@@ -43,7 +43,7 @@ public class AddCalendarView {
         this.publicLbl.setFont(new Font("Century Gothic", 0, 24));
         this.publicLbl.setForeground(new Color(51, 51, 51)); 
         
-        this.familyLbl = new JLabel("Added");
+        this.familyLbl = new JLabel("Family");
         this.familyLbl.setPreferredSize(new Dimension(100, 50));
         this.familyLbl.setMaximumSize(new Dimension(100, 50));
         this.familyLbl.setMinimumSize(new Dimension(100, 50));
@@ -209,6 +209,22 @@ public class AddCalendarView {
             "Access Denied",
             JOptionPane.ERROR_MESSAGE
         );
+    }
+
+    public void clearPublicSelection() {
+        this.publicList.clearSelection();
+    }
+
+    public void clearFamilySelection() {
+        this.familyList.clearSelection();
+    }
+
+    public void clearAllPublicCalendars() {
+        this.publicListModel.clear();
+    }
+
+    public void clearAllFamilyCalendars() {
+        this.familyListModel.clear();
     }
 
     // getters

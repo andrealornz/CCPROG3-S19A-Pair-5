@@ -497,6 +497,16 @@ public class EventEntryView {
     }
 
     public void clearTextFields() {
+        LocalDate today = LocalDate.now();
+        this.monthBox.setSelectedItem(today.getMonthValue());
+        this.dayBox.setSelectedItem(today.getDayOfMonth());
+        this.yearBox.setSelectedItem(today.getYear());
+
+        this.startTimeHourBox.setSelectedItem(0);
+        this.startTimeMinuteBox.setSelectedItem(0);
+        this.endTimeHourBox.setSelectedItem(0);
+        this.endTimeMinuteBox.setSelectedItem(0);
+
 		this.entryTitleTf.setText("");
 		this.venueTf.setText("");
         this.organizerTf.setText("");
@@ -530,7 +540,7 @@ public class EventEntryView {
         
         // change label and button
         titleLbl.setText("Edit Event Entry");
-        addBtn.setText("Update");
+        addBtn.setText("Edit");
     }
 
     // getters

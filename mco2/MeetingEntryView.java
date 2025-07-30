@@ -534,6 +534,18 @@ public class MeetingEntryView {
     }
 
     public void clearTextFields() {
+        LocalDate today = LocalDate.now();
+        this.monthBox.setSelectedItem(today.getMonthValue());
+        this.dayBox.setSelectedItem(today.getDayOfMonth());
+        this.yearBox.setSelectedItem(today.getYear());
+
+        this.startTimeHourBox.setSelectedItem(0);
+        this.startTimeMinuteBox.setSelectedItem(0);
+        this.endTimeHourBox.setSelectedItem(0);
+        this.endTimeMinuteBox.setSelectedItem(0);
+
+        this.modalityBox.setSelectedItem("Online");
+
 		this.entryTitleTf.setText("");
 		this.venueTf.setText("");
         this.linkTf.setText("");
@@ -564,7 +576,7 @@ public class MeetingEntryView {
         
         // change label and button
         titleLbl.setText("Edit Meeting Entry");
-        addBtn.setText("Update");
+        addBtn.setText("Edit");
     }
 
     // getters

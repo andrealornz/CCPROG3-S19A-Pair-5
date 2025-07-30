@@ -3,14 +3,21 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.ArrayList;
 
 public class CalendarMonthlyView {
+    private String currentCalendarName;
+    private CalendarModel currentModel;
+    private Calendar currentCalendar;
+
     private JPanel panel, headerPanel, calendarPanel;
     private JLabel monthYearLbl;
     private JLabel[][] dayNumberLbl;
@@ -18,6 +25,8 @@ public class CalendarMonthlyView {
     private JButton prevBtn, nextBtn, deleteBtn, addEntryBtn, backBtn, goBtn;
     private JComboBox<Integer> monthBox;
     private JComboBox<Integer> yearBox;
+    private ActionListener currentDayPanelListener;
+
 
     public CalendarMonthlyView() {
         this.panel = new JPanel();
@@ -33,10 +42,10 @@ public class CalendarMonthlyView {
 
         // calendarNameLbL
         this.monthYearLbl = new JLabel(currentMonthName + " " + currentYearString);
-        this.monthYearLbl.setPreferredSize(new Dimension(300, 50));
-        this.monthYearLbl.setMaximumSize(new Dimension(300, 50));
-        this.monthYearLbl.setMinimumSize(new Dimension(300, 50));
-        this.monthYearLbl.setFont(new Font("Century Gothic", 1, 36));
+        this.monthYearLbl.setPreferredSize(new Dimension(300, 40));
+        this.monthYearLbl.setMaximumSize(new Dimension(300, 40));
+        this.monthYearLbl.setMinimumSize(new Dimension(300, 40));
+        this.monthYearLbl.setFont(new Font("Century Gothic", 1, 30));
         this.monthYearLbl.setForeground(new Color(51, 51, 51));
         this.monthYearLbl.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -158,7 +167,6 @@ public class CalendarMonthlyView {
 
         // add components to panel
         this.panel.add(headerPanel);
-        this.panel.add(Box.createHorizontalStrut(10));
         initializeCalendar();
     }
 
@@ -217,6 +225,13 @@ public class CalendarMonthlyView {
     // helper methods
     public void initializeCalendar() {
         LocalDate now = LocalDate.now();
+
+        String currentMonthName = now.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        this.monthYearLbl.setText(currentMonthName + " " + now.getYear());
+
+        this.monthBox.setSelectedItem(now.getMonthValue());
+        this.yearBox.setSelectedItem(now.getYear());
+
         generateCalendar(now.getMonthValue(), now.getYear());
     }
 
@@ -227,21 +242,28 @@ public class CalendarMonthlyView {
         }
 
         // create the calendar panel
-        this.calendarPanel = new JPanel(new GridLayout(7, 7, 0, 0));
-        this.calendarPanel.setPreferredSize(new Dimension(980, 560));
-        this.calendarPanel.setMaximumSize(new Dimension(980, 560));
-        this.calendarPanel.setMinimumSize(new Dimension(980, 560));
+        this.calendarPanel = new JPanel(new BorderLayout());
+        this.calendarPanel.setPreferredSize(new Dimension(980, 595));
+        this.calendarPanel.setMaximumSize(new Dimension(980, 595));
+        this.calendarPanel.setMinimumSize(new Dimension(980, 595));
 
         // add day headers
+        JPanel dayHeaderPanel = new JPanel(new GridLayout(1, 7));
+        dayHeaderPanel.setPreferredSize(new Dimension(980, 50));
+        dayHeaderPanel.setMaximumSize(new Dimension(980, 50));
+        dayHeaderPanel.setMinimumSize(new Dimension(980, 50));
         String[] dayHeaders = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
         for (String day : dayHeaders) {
             JLabel dayLbl = new JLabel(day, SwingConstants.CENTER);
-            dayLbl.setFont(new Font("Century Gothic", 1, 16));
+            dayLbl.setFont(new Font("Century Gothic", 1, 14));
             dayLbl.setForeground(new Color(51, 51, 51));
-            dayLbl.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
-            this.calendarPanel.add(dayLbl);
+            dayLbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            dayHeaderPanel.add(dayLbl);
         }
 
+        // calendar grid
+        JPanel calendarGridPanel = new JPanel(new GridLayout(6, 7, 0, 0));
+        
         // get calendar dates
         LocalDate firstDay = LocalDate.of(year, month, 1);
         int startDayOfWeek = firstDay.getDayOfWeek().getValue() % 7;
@@ -264,12 +286,15 @@ public class CalendarMonthlyView {
                 this.dayPanel[week][day] = new JPanel();
                 this.dayPanel[week][day].setLayout(new BorderLayout());
                 this.dayPanel[week][day].setPreferredSize(new Dimension(90, 80));
+                this.dayPanel[week][day].setMaximumSize(new Dimension(90, 80));
+                this.dayPanel[week][day].setMinimumSize(new Dimension(90, 80));
                 this.dayPanel[week][day].setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(51, 51, 51)));
+                this.dayPanel[week][day].setCursor(new Cursor(Cursor.HAND_CURSOR));
                 
                 // day number label
                 this.dayNumberLbl[week][day] = new JLabel();
-                this.dayNumberLbl[week][day].setFont(new Font("Century Gothic", 0, 14));
-                this.dayNumberLbl[week][day].setHorizontalAlignment(SwingConstants.CENTER);
+                this.dayNumberLbl[week][day].setFont(new Font("Century Gothic", 0, 12));
+                this.dayNumberLbl[week][day].setHorizontalAlignment(SwingConstants.LEFT);
                 this.dayNumberLbl[week][day].setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
                 
                 // entry panel
@@ -320,14 +345,71 @@ public class CalendarMonthlyView {
                 this.dayPanel[week][day].add(this.entryPanel[week][day], BorderLayout.CENTER);
 
                 // add day panel to calendar
-                this.calendarPanel.add(this.dayPanel[week][day]);
+                calendarGridPanel.add(this.dayPanel[week][day]);
             }
         }
+
+        this.calendarPanel.add(dayHeaderPanel, BorderLayout.NORTH);
+        this.calendarPanel.add(calendarGridPanel, BorderLayout.CENTER);
 
         // add calendar panel to main panel
         this.panel.add(this.calendarPanel);
         this.panel.revalidate();
         this.panel.repaint();
+    }
+
+    public JPanel[][] getDayPanel() {
+        return this.dayPanel;
+    }
+
+    public void displayEntriesForDay(int week, int day, ArrayList<Entry> entries) {
+        if (this.entryPanel[week][day] != null) {
+            this.entryPanel[week][day].removeAll();
+
+            if (entries.size() <= 3) {
+                // if there are 3 or less entries
+                for (int i = 0; i < entries.size(); i++) {
+                    JLabel entryLbl = new JLabel("- " + entries.get(i).getTitle());
+                    entryLbl.setFont(new Font("Century Gothic", 0, 10));
+                    entryLbl.setForeground(new Color(51, 51, 51));
+                    entryLbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+                    this.entryPanel[week][day].add(entryLbl);
+                }
+            } else {
+                // if there are more than 3 entries
+                for (int i = 0; i < 2; i++) {
+                    JLabel entryLbl = new JLabel("- " + entries.get(i).getTitle());
+                    entryLbl.setFont(new Font("Century Gothic", 0, 10));
+                    entryLbl.setForeground(new Color(51, 51, 51));
+                    entryLbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+                    this.entryPanel[week][day].add(entryLbl);
+                }
+                
+                int moreCount = entries.size() - 2;
+                JLabel moreLbl = new JLabel("+" + moreCount + " more");
+                moreLbl.setFont(new Font("Century Gothic", 0, 10));
+                moreLbl.setForeground(new Color(51, 51, 51));
+                moreLbl.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+                this.entryPanel[week][day].add(moreLbl);
+            }
+
+            this.entryPanel[week][day].revalidate();
+            this.entryPanel[week][day].repaint();
+        }
+    }
+
+    public void populateCalendarEntries(CalendarModel model, Calendar calendar) {
+        for (int week = 0; week < 6; week++) {
+            for (int day = 0; day < 7; day++) {
+                if (this.dayPanel[week][day] != null) {
+                    LocalDate panelDate = (LocalDate) this.dayPanel[week][day].getClientProperty("date");
+                    if (panelDate != null) {
+                        ArrayList<Entry> dayEntries = model.getEntriesForDate(calendar, panelDate);
+                        displayEntriesForDay(week, day, dayEntries);
+                    }
+                }
+            }
+        }
     }
 
     public void updateCalendar(int month, int year) {
@@ -342,6 +424,42 @@ public class CalendarMonthlyView {
         // update combo boxes
         this.monthBox.setSelectedItem(month);
         this.yearBox.setSelectedItem(year);
+    }
+
+    public void setCurrentCalendar(CalendarModel model, Calendar calendar) {
+        this.currentModel = model;
+        this.currentCalendar = calendar;
+        this.currentCalendarName = calendar.getName();
+        refreshEntries();
+    }
+
+    public void refreshEntries() {
+        if (currentModel != null && currentCalendar != null) {
+            populateCalendarEntries(currentModel, currentCalendar);
+        }
+    }
+
+    public String getCurrentCalendarName() {
+        return currentCalendarName;
+    }
+
+    public boolean showDeleteConfirmation() { // pop up for deleting the calendar
+        int option = JOptionPane.showConfirmDialog(
+            this.panel,
+            "Are you sure you want to delete this calendar?",
+            "Confirm Add Calendar",
+            JOptionPane.YES_NO_OPTION
+        );
+        return option == JOptionPane.YES_OPTION;
+    }
+
+    public void showDefaultCalendarError() {
+        JOptionPane.showMessageDialog(
+            this.panel,
+            "Default calendar cannot be deleted.",
+            "Cannot Delete Calendar",
+            JOptionPane.ERROR_MESSAGE
+        );
     }
 
     // getters

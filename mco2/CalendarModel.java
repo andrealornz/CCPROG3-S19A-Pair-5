@@ -33,33 +33,79 @@ public class CalendarModel {
         return entriesForWeek;
     }
 
-    /* TO EDIT: because priority and status have been changed to String
-    public ArrayList<Entry> sortEntries(ArrayList<Entry> entries) { //terrible algorithm
-        ArrayList<Entry> toBeSorted = new ArrayList<Entry>();
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        ArrayList<Entry> sortedTasks = new ArrayList<Entry>();
-        ArrayList<Entry> others = new ArrayList<Entry>();
-        Task highest = new Task(LocalDate.now(), "", "", 0, false, "", "");
-        for (Entry entry : entries) { //segregate tasks from other entries
-            if (entry instanceof Task) {
-                tasks.add((Task)entry);
-            } else {
-                others.add(entry);
-            }
-        }
-        for (int i = 0; i < tasks.size(); i++) { //sort tasks by priority
-            for (Task task : tasks) {
-                if (task.getPriority() > highest.getPriority()) {
-                    highest = task;
+    public void sortEntries(Calendar calendar) {
+        calendar.getEntries().sort((e1, e2) -> {
+            boolean e1IsJournal = e1 instanceof Journal;
+            boolean e2IsJournal = e2 instanceof Journal;
+            boolean e1IsTask = e1 instanceof Task;
+            boolean e2IsTask = e2 instanceof Task;
+            boolean e1IsTimed = e1 instanceof Event || e1 instanceof Meeting;
+            boolean e2IsTimed = e2 instanceof Event || e2 instanceof Meeting;
+            
+            int result = 0;
+            
+            // journal first
+            if (e1IsJournal && !e2IsJournal) {
+                result = -1;
+            } else if (!e1IsJournal && e2IsJournal) {
+                result = 1;
+            } else if (e1IsTask && !e2IsTask && !e2IsJournal) {
+                result = -1;
+            } else if (!e1IsTask && e2IsTask && !e1IsJournal) {
+                result = 1;
+            } else if (e1IsTask && e2IsTask) {
+                String priority1 = ((Task) e1).getPriority();
+                String priority2 = ((Task) e2).getPriority();
+                
+                if (!priority1.equalsIgnoreCase(priority2)) {
+                    if (priority1.equalsIgnoreCase("high")) {
+                        result = -1;
+                    } else if (priority2.equalsIgnoreCase("high")) {
+                        result = 1;
+                    } else if (priority1.equalsIgnoreCase("medium")) {
+                        result = -1;
+                    } else if (priority2.equalsIgnoreCase("medium")) {
+                        result = 1;
+                    }
+                } else {
+                    result = e1.getTitle().compareToIgnoreCase(e2.getTitle());
+                }
+            } else if (e1IsTimed && e2IsTimed) {
+                LocalTime time1 = getStartTime(e1);
+                LocalTime time2 = getStartTime(e2);
+                
+                if (!time1.equals(time2)) {
+                    result = time1.compareTo(time2);
+                } else {
+                    result = e1.getTitle().compareToIgnoreCase(e2.getTitle());
                 }
             }
-            sortedTasks.add(highest);
+            
+            return result;
+        });
+    }
+
+    private int getPriorityValue(String priority) {
+        int value = 0;
+        if (priority.equalsIgnoreCase("high")) {
+            value = 3;
+        } else if (priority.equalsIgnoreCase("medium")) {
+            value = 2;
+        } else if (priority.equalsIgnoreCase("low")) {
+            value = 1;
         }
-        toBeSorted.addAll(sortedTasks);
-        toBeSorted.addAll(others);
-        return toBeSorted;
-    } 
-    */
+        return value;
+    }
+
+    private LocalTime getStartTime(Entry entry) {
+        LocalTime time = LocalTime.MIDNIGHT;
+        if (entry instanceof Event) {
+            time = ((Event) entry).getStartTime();
+        } else if (entry instanceof Meeting) {
+            time = ((Meeting) entry).getStartTime();
+        }
+        return time;
+    }
 
     public Entry createEntry(Calendar calendar, LocalDate date, String title, String details) {
         return new Journal(date, title, details);

@@ -127,6 +127,10 @@ public class NewPublicCalendarView {
     }
 
     // helper methods
+    public void showSuccess(String calendarName) { // pop-up calendar is successfuly created
+        JOptionPane.showMessageDialog(this.panel, calendarName + " calendar is successfully created!", "Calendar Created!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public void showError() { // if cannot create calendar
         this.errorLbl.setVisible(true);
     }

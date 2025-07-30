@@ -262,6 +262,14 @@ public class JournalEntryView {
         return this.descriptionTa.getText();
     }
 
+    public void setCancelBtnListener(ActionListener actionListener) {
+        this.cancelBtn.addActionListener(actionListener);
+    }
+    
+    public void setAddBtnListener(ActionListener actionListener) {
+        this.addBtn.addActionListener(actionListener);
+    }
+
     // helper methods
     public void showError() { // if cannot create entry
         this.errorLbl.setVisible(true);
@@ -272,6 +280,11 @@ public class JournalEntryView {
     }
 
     public void clearTextFields() {
+        LocalDate today = LocalDate.now();
+        this.monthBox.setSelectedItem(today.getMonthValue());
+        this.dayBox.setSelectedItem(today.getDayOfMonth());
+        this.yearBox.setSelectedItem(today.getYear());
+
 		this.entryTitleTf.setText("");
         this.descriptionTa.setText("");
 	}
@@ -287,8 +300,8 @@ public class JournalEntryView {
         this.yearBox.setSelectedItem(date.getYear());
         
         // change label and button
-        titleLbl.setText("Edit Journal Entry");
-        addBtn.setText("Update");
+        this.titleLbl.setText("Edit Journal Entry");
+        this.addBtn.setText("Edit");
     }
 
     // getters

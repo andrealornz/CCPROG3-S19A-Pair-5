@@ -11,7 +11,7 @@ public class MainMenuView {
     public MainMenuView() {
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-        
+
         // title label
         this.titleLbl = new JLabel("The Digital Calendar");
         this.titleLbl.setPreferredSize(new Dimension(500, 70));

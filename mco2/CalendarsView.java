@@ -198,6 +198,27 @@ public class CalendarsView {
         this.addedListModel.removeElement(calendarName);
     }
 
+    public void clearOwnedCalendars() {
+        this.ownedListModel.clear();
+    }
+
+    public void clearAddedCalendars() {
+        this.addedListModel.clear();
+    }
+
+    public void clearAllCalendars() {
+        this.ownedListModel.clear();
+        this.addedListModel.clear();
+    }
+
+    public void clearOwnedSelection() {
+        this.ownedList.clearSelection();
+    }
+
+    public void clearAddedSelection() {
+        this.addedList.clearSelection();
+    }
+
     // getters
     public JPanel getPanel() {
         return this.panel;

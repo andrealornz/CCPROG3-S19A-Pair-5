@@ -159,6 +159,10 @@ public class LogInView {
     }
 
     // helper methods
+    public void showSuccess() { // pop-up when login is successful
+        JOptionPane.showMessageDialog(this.panel, "You may now use the Digital Calendar.", "Log-in Successful!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public void showError() { // if username or password is incorrect
         this.errorLbl.setVisible(true);
     }
