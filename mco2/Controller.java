@@ -143,7 +143,7 @@ public class Controller {
                 } 
             }
         });
-
+        
         this.mainView.getAccountSettingsView().setDeleteBtnListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -295,14 +295,18 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 String calendarName = mainView.getNewPersonalCalendarView().getNameTfText();
 
-                boolean success = accountModel.createCalendar(calendarName, "Personal", "");
+                if (!calendarName.trim().isEmpty()) {
+                    boolean success = accountModel.createCalendar(calendarName, "Personal", "");
 
-                if (success) {
-                    loadCalendarsIntoView();
-                    mainView.showCard("CREATE_NEW");
-                    mainView.getNewPersonalCalendarView().showSuccess(calendarName);
-                    mainView.getNewPersonalCalendarView().clearTextFields();
-                    mainView.getNewPersonalCalendarView().hideError();
+                    if (success) {
+                        loadCalendarsIntoView();
+                        mainView.showCard("CREATE_NEW");
+                        mainView.getNewPersonalCalendarView().showSuccess(calendarName);
+                        mainView.getNewPersonalCalendarView().clearTextFields();
+                        mainView.getNewPersonalCalendarView().hideError();
+                    } else {
+                        mainView.getNewPersonalCalendarView().showError();
+                    }
                 } else {
                     mainView.getNewPersonalCalendarView().showError();
                 }
@@ -325,14 +329,18 @@ public class Controller {
                 String calendarName = mainView.getNewFamilyCalendarView().getNameTfText();
                 String accessCode = mainView.getNewFamilyCalendarView().getCodeTfText();
 
-                boolean success = accountModel.createCalendar(calendarName, "Family", accessCode);
+                if (!calendarName.trim().isEmpty() && !accessCode.trim().isEmpty()) {
+                    boolean success = accountModel.createCalendar(calendarName, "Family", accessCode);
 
-                if (success) {
-                    loadCalendarsIntoView();
-                    mainView.showCard("CREATE_NEW");
-                    mainView.getNewFamilyCalendarView().showSuccess(calendarName);
-                    mainView.getNewFamilyCalendarView().clearTextFields();
-                    mainView.getNewFamilyCalendarView().hideError();
+                    if (success) {
+                        loadCalendarsIntoView();
+                        mainView.showCard("CREATE_NEW");
+                        mainView.getNewFamilyCalendarView().showSuccess(calendarName);
+                        mainView.getNewFamilyCalendarView().clearTextFields();
+                        mainView.getNewFamilyCalendarView().hideError();
+                    } else {
+                        mainView.getNewFamilyCalendarView().showError();
+                    }
                 } else {
                     mainView.getNewFamilyCalendarView().showError();
                 }
@@ -354,14 +362,18 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
                 String calendarName = mainView.getNewPublicCalendarView().getNameTfText();
 
-                boolean success = accountModel.createCalendar(calendarName, "Public", "");
+                if (!calendarName.trim().isEmpty()) {
+                    boolean success = accountModel.createCalendar(calendarName, "Public", "");
 
-                if (success) {
-                    loadCalendarsIntoView();
-                    mainView.showCard("CREATE_NEW");
-                    mainView.getNewPublicCalendarView().showSuccess(calendarName);
-                    mainView.getNewPublicCalendarView().clearTextFields();
-                    mainView.getNewPublicCalendarView().hideError();
+                    if (success) {
+                        loadCalendarsIntoView();
+                        mainView.showCard("CREATE_NEW");
+                        mainView.getNewPublicCalendarView().showSuccess(calendarName);
+                        mainView.getNewPublicCalendarView().clearTextFields();
+                        mainView.getNewPublicCalendarView().hideError();
+                    } else {
+                        mainView.getNewPublicCalendarView().showError();
+                    }
                 } else {
                     mainView.getNewPublicCalendarView().showError();
                 }
@@ -936,7 +948,22 @@ public class Controller {
                     mainView.getTaskEntryView().showDeleteButton();
                     mainView.getTaskEntryView().setCurrentEntry(entry);
                     mainView.showCard("TASK");
-                } 
+                } else if (entry instanceof Event) {
+                    mainView.getEventEntryView().populateFields((Event) entry);
+                    mainView.getEventEntryView().showDeleteButton();
+                    mainView.getEventEntryView().setCurrentEntry(entry);
+                    mainView.showCard("EVENT");
+                } else if (entry instanceof Meeting) {
+                    mainView.getMeetingEntryView().populateFields((Meeting) entry);
+                    mainView.getMeetingEntryView().showDeleteButton();
+                    mainView.getMeetingEntryView().setCurrentEntry(entry);
+                    mainView.showCard("MEETING");
+                } else if (entry instanceof Journal) {
+                    mainView.getJournalEntryView().populateFields((Journal) entry);
+                    mainView.getJournalEntryView().showDeleteButton();
+                    mainView.getJournalEntryView().setCurrentEntry(entry);
+                    mainView.showCard("JOURNAL");
+                }
             }
         });
     }

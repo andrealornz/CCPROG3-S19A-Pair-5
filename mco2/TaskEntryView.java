@@ -525,7 +525,7 @@ public class TaskEntryView {
         this.priorityBox.setSelectedIndex(0);
         this.statusBox.setSelectedIndex(0);
         
-        // Reset to add mode
+        // reset to add mode
         this.titleLbl.setText("Add Task Entry");
         this.addBtn.setText("Add");
         this.setCurrentEntry(null);

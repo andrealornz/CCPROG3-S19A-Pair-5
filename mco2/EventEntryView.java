@@ -5,20 +5,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class EventEntryView {
+    private Entry currentEntry; 
+
     private JPanel panel, datePanel, entryTitlePanel, startTimePanel, endTimePanel, venuePanel, organizerPanel, descriptionPanel, addPanel;
     private JLabel titleLbl, dateLbl, entryTitleLbl, startTimeLbl, endTimeLbl, venueLbl, organizerLbl, descriptionLbl, errorLbl;
     private JTextField entryTitleTf, venueTf, organizerTf;
     private JTextArea descriptionTa;
     private JScrollPane descriptionScrollPane;
     private JComboBox<Integer> dayBox, monthBox, yearBox, startTimeHourBox, startTimeMinuteBox, endTimeHourBox, endTimeMinuteBox;
-    private JButton cancelBtn, addBtn;
+    private JButton cancelBtn, addBtn, deleteBtn;
     private JPanel dateTitlePanel, startEndTimePanel, venueOrganizerPanel;
     private JSeparator separator;
 
     public EventEntryView() {
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-
+        
         // title label
         this.titleLbl = new JLabel("Add Event Entry");
         this.titleLbl.setPreferredSize(new Dimension(1000, 50));
@@ -350,6 +352,17 @@ public class EventEntryView {
         this.addBtn.setForeground(new Color(51, 51, 51));
         this.addBtn.setContentAreaFilled(false);
 
+        // delete button
+        this.deleteBtn = new JButton("Delete");
+        this.deleteBtn.setPreferredSize(new Dimension(240, 50));
+        this.deleteBtn.setMaximumSize(new Dimension(240, 50));
+        this.deleteBtn.setMinimumSize(new Dimension(240, 50));
+        this.deleteBtn.setFont(new Font("Century Gothic", 0, 24));
+        this.deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(51, 51, 51)));
+        this.deleteBtn.setForeground(new Color(51, 51, 51));
+        this.deleteBtn.setContentAreaFilled(false);
+        this.deleteBtn.setVisible(false); // initially hidden
+
         // add panel
         this.addPanel = new JPanel();
         this.addPanel.setLayout(new BoxLayout(this.addPanel, BoxLayout.X_AXIS));
@@ -488,12 +501,62 @@ public class EventEntryView {
     }
 
     // helper methods
+    public boolean showDeleteConfirmation() {
+        int option = JOptionPane.showConfirmDialog(
+            this.panel,
+            "Are you sure you want to delete this entry?",
+            "Confirm Delete Entry",
+            JOptionPane.YES_NO_OPTION
+        );
+        return option == JOptionPane.YES_OPTION;
+    }
+
     public void showError() { // if cannot create entry
         this.errorLbl.setVisible(true);
     }
 
     public void hideError() { 
         this.errorLbl.setVisible(false);
+    }
+
+    public void showDeleteButton() {
+        if (!this.deleteBtn.isVisible()) {
+            // Remove all components and re-add with delete button
+            this.addPanel.removeAll();
+            this.addPanel.add(Box.createHorizontalGlue());
+            this.addPanel.add(cancelBtn);
+            this.addPanel.add(Box.createHorizontalStrut(20));
+            this.addPanel.add(addBtn);
+            this.addPanel.add(Box.createHorizontalStrut(20));
+            this.addPanel.add(deleteBtn);
+            this.addPanel.add(Box.createHorizontalGlue());
+            this.deleteBtn.setVisible(true);
+            this.addPanel.revalidate();
+            this.addPanel.repaint();
+        }
+    }
+
+    public void hideDeleteButton() {
+        if (this.deleteBtn.isVisible()) {
+            // Remove all components and re-add without delete button
+            this.addPanel.removeAll();
+            this.addPanel.add(Box.createHorizontalGlue());
+            this.addPanel.add(cancelBtn);
+            this.addPanel.add(Box.createHorizontalStrut(20));
+            this.addPanel.add(addBtn);
+            this.addPanel.add(Box.createHorizontalGlue());
+            this.deleteBtn.setVisible(false);
+            this.addPanel.revalidate();
+            this.addPanel.repaint();
+        }
+    }
+
+    public void setCurrentEntry(Entry entry) {
+        this.currentEntry = entry;
+    }
+
+    public Entry getCurrentEntry() {
+        return this.currentEntry;
     }
 
     public void clearTextFields() {
@@ -511,6 +574,12 @@ public class EventEntryView {
 		this.venueTf.setText("");
         this.organizerTf.setText("");
         this.descriptionTa.setText("");
+
+        // reset to add mode
+        this.titleLbl.setText("Add Event Entry");
+        this.addBtn.setText("Add");
+        this.setCurrentEntry(null);
+        this.hideDeleteButton();
 	}
 
     public void setOrganizerTfText(String organizer) { // use to change the text field display to the username
